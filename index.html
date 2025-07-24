@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Base Aurora | G148 Teen</title>
+  <style>
+    :root {
+      --roxo: #6A1B9A;
+      --verde: #26A69A;
+      --amarelo: #FFC107;
+      --fundo: #FFFFFF;
+      --texto: #333333;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: var(--fundo);
+      color: var(--texto);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: var(--verde);
+      width: 100%;
+      padding: 20px;
+      text-align: center;
+      color: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+    }
+
+    nav {
+      margin-top: 10px;
+    }
+
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      transition: color 0.3s;
+      cursor: pointer;
+    }
+
+    nav a:hover {
+      color: var(--amarelo);
+    }
+
+    main {
+      padding: 30px;
+      max-width: 800px;
+      text-align: center;
+    }
+
+    footer {
+      margin-top: auto;
+      background-color: var(--roxo);
+      padding: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9rem;
+      color: white;
+    }
+
+.logo {
+  width: 200px; /* <--- Adicionei o valor aqui */
+  margin: 15px auto;
+  display: block;
+}
+
+    section {
+      display: none;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    ul li {
+      margin: 10px 0;
+    }
+
+    ul li a {
+      color: var(--verde);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    ul li a:hover {
+      text-decoration: underline;
+    }
+
+    .button {
+      padding: 6px 12px;
+      background-color: var(--verde);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .button:hover {
+      background-color: #1e877e;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Base Aurora - G148 Teen</h1>
+    <nav>
+      <a onclick="mostrarSecao('inicio')">Início</a>
+      <a onclick="mostrarSecao('agenda')">Agenda</a>
+      <a onclick="mostrarSecao('galeria')">Galeria</a>
+      <a onclick="mostrarSecao('links')">Links</a>
+      <a onclick="mostrarSecao('contato')">Contato</a>
+    </nav>
+  </header>
+
+  <main>
+    <img src="img/logo-base.jpg"  class="logo">
+
+    <section id="inicio" class="active">
+      <h2>Bem-vindo à nossa Base!</h2>
+      <p>Esse é o site oficial da Escola Sabatina Teen Base Aurora. Aqui você encontra lições, agenda de atividades, fotos e muito mais!</p>
+    </section>
+
+    <section id="agenda">
+      <h2>📆 Agenda Interativa da Base</h2>
+      <p>Clique em uma data e adicione um evento:</p>
+
+      <div style="margin-top: 20px;">
+        <input type="date" id="dataEvento">
+        <input type="text" id="descricaoEvento" placeholder="Descrição do evento">
+        <button class="button" onclick="adicionarEvento()">Adicionar</button>
+      </div>
+
+      <div id="listaEventos" style="margin-top: 30px; text-align: left;"></div>
+    </section>
+
+   <section id="galeria">
+  <h2>Galeria</h2>
+  <p>Confira abaixo algumas fotos das nossas atividades:</p>
+
+  <div class="galeria-container">
+    <!-- Imagem 1 -->
+    <a href="imagens/atividade1.jpg" target="_blank">
+      <img src="img/Imagem do WhatsApp de 2025-07-23 à(s) 15.22.12_7852bc2e.jpg" alt="Atividade 1">
+    </a>
+
+    <!-- Imagem 2 -->
+    <a href="imagens/atividade2.jpg" target="_blank">
+      <img src="img/Imagem do WhatsApp de 2025-07-23 à(s) 15.19.05_c7d76686.jpg" alt="Atividade 2">
+    </a>
+
+    <!-- Imagem 3 -->
+    <a href="imagens/atividade3.jpg" target="_blank">
+      <img src="img/Imagem do WhatsApp de 2025-07-23 à(s) 15.14.05_6b1766a4.jpg" alt="Atividade 3">
+    </a>
+
+    <!-- Adicione mais imagens conforme necessário -->
+  </div>
+
+  <style>
+    /* Estilo básico para a galeria */
+    .galeria-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      padding: 10px 0;
+    }
+
+    .galeria-container a img {
+      width: 200px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .galeria-container a img:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</section>
+
+    <section id="links">
+      <h2>Links Úteis</h2>
+      <ul>
+        <li><a href="links/Lição Adolescentes 2° trimestre 2025.pdf" target="_blank">📖 Lição do trimestre </a></li>
+        <li><a href="links/informartivo-mundial-infantil-2trim2025.pdf" target="_blank">📚 Informativo </a></li>
+        <li><a href="links/O libertador .pdf" target="_blank">📙 Livro Auxiliar </a></li>
+        <li><a href="https://www.bibliaon.com/" target="_blank">📕 Bíblia Online</a></li>
+        <li><a href="https://adventistas.org" target="_blank">🌍 Site Oficial da Igreja</a></li>
+      </ul>
+    </section>
+
+    <section id="contato">
+      <h2>📞 Contato da Base Aurora</h2>
+      <p>Fale com a liderança ou acompanhe nossas redes sociais:</p>
+
+      <div style="display: flex; flex-direction: column; gap: 20px; align-items: center; margin-top: 30px;">
+        <a href="https://www.instagram.com/base.aurora_g148t" target="_blank"
+          style="background-color: #E1306C; color: white; padding: 12px 24px; border-radius: 10px; font-size: 1.1rem; text-decoration: none; font-weight: bold; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
+          📸 Instagram Oficial da Base
+        </a>
+
+        <a href="https://chat.whatsapp.com/SEU_LINK_DO_GRUPO" target="_blank"
+          style="background-color: #25D366; color: white; padding: 12px 24px; border-radius: 10px; font-size: 1.1rem; text-decoration: none; font-weight: bold; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
+          💬 Grupo do WhatsApp da Base
+        </a>
+      </div>
+
+      <p style="margin-top: 30px; color: #666;">
+        📍 Igreja Adventista do Sétimo Dia - Rua Natal, 42- Jardim Agari<br>
+⏰ Sábados às 9h – Escola Sabatina Adolescentes
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Base Aurora | Desenvolvido por Felipe Medina
+  </footer>
+
+  <script>
+    function mostrarSecao(id) {
+      const secoes = document.querySelectorAll("section");
+      secoes.forEach(secao => secao.classList.remove("active"));
+      const ativa = document.getElementById(id);
+      if (ativa) ativa.classList.add("active");
+    }
+
+    function carregarEventos() {
+      const listaEventos = document.getElementById("listaEventos");
+      const eventos = JSON.parse(localStorage.getItem("eventosBase")) || [];
+      listaEventos.innerHTML = "<h3>📋 Eventos marcados:</h3>";
+
+      if (eventos.length === 0) {
+        listaEventos.innerHTML += "<p style='color: #777;'>Nenhum evento ainda.</p>";
+        return;
+      }
+
+      eventos.forEach((evento, index) => {
+        listaEventos.innerHTML += `
+          <p>
+            <strong>${evento.data}</strong>: ${evento.descricao}
+            <button onclick="removerEvento(${index})" style="margin-left: 10px; background: crimson; color: white; border: none; padding: 4px 8px; border-radius: 5px; cursor: pointer;">Remover</button>
+          </p>
+        `;
+      });
+    }
+
+    function adicionarEvento() {
+      const data = document.getElementById("dataEvento").value;
+      const descricao = document.getElementById("descricaoEvento").value;
+
+      if (!data || !descricao) {
+        alert("Preencha a data e a descrição.");
+        return;
+      }
+
+      const eventos = JSON.parse(localStorage.getItem("eventosBase")) || [];
+      eventos.push({ data, descricao });
+      localStorage.setItem("eventosBase", JSON.stringify(eventos));
+      document.getElementById("descricaoEvento").value = "";
+      carregarEventos();
+    }
+
+    function removerEvento(index) {
+      const eventos = JSON.parse(localStorage.getItem("eventosBase")) || [];
+      eventos.splice(index, 1);
+      localStorage.setItem("eventosBase", JSON.stringify(eventos));
+      carregarEventos();
+    }
+
+    // Carregar eventos ao abrir a página
+    carregarEventos();
+  </script>
+</body>
+</html>
