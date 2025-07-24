@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Base Aurora | G148 Teen</title>
   <style>
     :root {
@@ -11,13 +11,18 @@
       --amarelo: #FFC107;
       --fundo: #FFFFFF;
       --texto: #333333;
+      --fundo-escuro: #121212;
+      --texto-escuro: #EEE;
+      --verde-escuro: #1B7A74;
+      --roxo-escuro: #4B116F;
+      --amarelo-escuro: #B08900;
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: "Segoe UI", sans-serif;
     }
 
     body {
@@ -27,6 +32,12 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.dark-mode {
+      background-color: var(--fundo-escuro);
+      color: var(--texto-escuro);
     }
 
     header {
@@ -35,11 +46,17 @@
       padding: 20px;
       text-align: center;
       color: white;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    body.dark-mode header {
+      background-color: var(--verde-escuro);
     }
 
     header h1 {
       font-size: 2.5rem;
+      margin-bottom: 10px;
     }
 
     nav {
@@ -59,10 +76,15 @@
       color: var(--amarelo);
     }
 
+    body.dark-mode nav a:hover {
+      color: var(--amarelo-escuro);
+    }
+
     main {
       padding: 30px;
       max-width: 800px;
       text-align: center;
+      width: 100%;
     }
 
     footer {
@@ -75,11 +97,15 @@
       color: white;
     }
 
-.logo {
-  width: 200px; /* <--- Adicionei o valor aqui */
-  margin: 15px auto;
-  display: block;
-}
+    body.dark-mode footer {
+      background-color: var(--roxo-escuro);
+    }
+
+    .logo {
+      width: 200px;
+      margin: 15px auto;
+      display: block;
+    }
 
     section {
       display: none;
@@ -92,6 +118,8 @@
     ul {
       list-style-type: none;
       padding: 0;
+      max-width: 400px;
+      margin: 0 auto;
     }
 
     ul li {
@@ -102,10 +130,15 @@
       color: var(--verde);
       text-decoration: none;
       font-weight: bold;
+      transition: color 0.3s;
     }
 
     ul li a:hover {
       text-decoration: underline;
+    }
+
+    body.dark-mode ul li a {
+      color: var(--amarelo);
     }
 
     .button {
@@ -116,72 +149,22 @@
       border-radius: 5px;
       cursor: pointer;
       font-weight: bold;
+      transition: background-color 0.3s;
     }
 
     .button:hover {
       background-color: #1e877e;
     }
-  </style>
-</head>
-<body>
 
-  <header>
-    <h1>Base Aurora - G148 Teen</h1>
-    <nav>
-      <a onclick="mostrarSecao('inicio')">Início</a>
-      <a onclick="mostrarSecao('agenda')">Agenda</a>
-      <a onclick="mostrarSecao('galeria')">Galeria</a>
-      <a onclick="mostrarSecao('links')">Links</a>
-      <a onclick="mostrarSecao('contato')">Contato</a>
-    </nav>
-  </header>
+    body.dark-mode .button {
+      background-color: var(--verde-escuro);
+    }
 
-  <main>
-    <img src="img/logo-base.jpg"  class="logo">
+    body.dark-mode .button:hover {
+      background-color: #145e5b;
+    }
 
-    <section id="inicio" class="active">
-      <h2>Bem-vindo à nossa Base!</h2>
-      <p>Esse é o site oficial da Escola Sabatina Teen Base Aurora. Aqui você encontra lições, agenda de atividades, fotos e muito mais!</p>
-    </section>
-
-    <section id="agenda">
-      <h2>📆 Agenda Interativa da Base</h2>
-      <p>Clique em uma data e adicione um evento:</p>
-
-      <div style="margin-top: 20px;">
-        <input type="date" id="dataEvento">
-        <input type="text" id="descricaoEvento" placeholder="Descrição do evento">
-        <button class="button" onclick="adicionarEvento()">Adicionar</button>
-      </div>
-
-      <div id="listaEventos" style="margin-top: 30px; text-align: left;"></div>
-    </section>
-
-   <section id="galeria">
-  <h2>Galeria</h2>
-  <p>Confira abaixo algumas fotos das nossas atividades:</p>
-
-  <div class="galeria-container">
-    <!-- Imagem 1 -->
-    <a href="imagens/atividade1.jpg" target="_blank">
-      <img src="img/Imagem do WhatsApp de 2025-07-23 à(s) 15.22.12_7852bc2e.jpg" alt="Atividade 1">
-    </a>
-
-    <!-- Imagem 2 -->
-    <a href="imagens/atividade2.jpg" target="_blank">
-      <img src="img/Imagem do WhatsApp de 2025-07-23 à(s) 15.19.05_c7d76686.jpg" alt="Atividade 2">
-    </a>
-
-    <!-- Imagem 3 -->
-    <a href="imagens/atividade3.jpg" target="_blank">
-      <img src="img/Imagem do WhatsApp de 2025-07-23 à(s) 15.14.05_6b1766a4.jpg" alt="Atividade 3">
-    </a>
-
-    <!-- Adicione mais imagens conforme necessário -->
-  </div>
-
-  <style>
-    /* Estilo básico para a galeria */
+    /* Galeria */
     .galeria-container {
       display: flex;
       flex-wrap: wrap;
@@ -194,22 +177,215 @@
       width: 200px;
       height: auto;
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       transition: transform 0.3s ease;
     }
 
     .galeria-container a img:hover {
       transform: scale(1.05);
     }
+
+    /* Caixa de Versículo do Dia */
+    .versiculo-do-dia {
+      background: var(--amarelo);
+      color: #333;
+      border-radius: 10px;
+      padding: 15px 20px;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      font-style: italic;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.dark-mode .versiculo-do-dia {
+      background: var(--amarelo-escuro);
+      color: #eee;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Botão modo escuro */
+    #btnModoEscuro {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: 2px solid white;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      color: white;
+      font-size: 18px;
+      line-height: 32px;
+      user-select: none;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    #btnModoEscuro:hover {
+      background-color: white;
+      color: var(--verde);
+    }
+
+    body.dark-mode #btnModoEscuro {
+      border-color: var(--amarelo-escuro);
+      color: var(--amarelo-escuro);
+    }
+
+    body.dark-mode #btnModoEscuro:hover {
+      background-color: var(--amarelo-escuro);
+      color: #222;
+    }
+
+    /* Pedidos de oração */
+    #pedidoOracaoForm {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    #pedidoOracaoForm label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+
+    #pedidoOracaoForm input,
+    #pedidoOracaoForm textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      resize: vertical;
+      transition: border-color 0.3s;
+    }
+
+    #pedidoOracaoForm input:focus,
+    #pedidoOracaoForm textarea:focus {
+      border-color: var(--verde);
+      outline: none;
+    }
+
+    body.dark-mode #pedidoOracaoForm input,
+    body.dark-mode #pedidoOracaoForm textarea {
+      background-color: #222;
+      color: #eee;
+      border-color: #555;
+    }
+
+    body.dark-mode #pedidoOracaoForm input:focus,
+    body.dark-mode #pedidoOracaoForm textarea:focus {
+      border-color: var(--verde-escuro);
+    }
+
+    #listaPedidos {
+      max-width: 600px;
+      margin: 20px auto 0;
+      text-align: left;
+    }
+
+    #listaPedidos p {
+      background: var(--verde);
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      position: relative;
+      word-wrap: break-word;
+    }
+
+    body.dark-mode #listaPedidos p {
+      background: var(--verde-escuro);
+    }
+
+    #listaPedidos button.removerPedido {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: crimson;
+      border: none;
+      border-radius: 5px;
+      padding: 3px 8px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      font-size: 0.8rem;
+    }
+
+    #listaPedidos button.removerPedido:hover {
+      background: #a30000;
+    }
   </style>
-</section>
+</head>
+<body>
+  <header>
+    <h1>Base Aurora - G148 Teen</h1>
+    <button id="btnModoEscuro" title="Alternar modo claro/escuro">🌙</button>
+    <nav>
+      <a onclick="mostrarSecao('inicio')">Início</a>
+      <a onclick="mostrarSecao('agenda')">Agenda</a>
+      <a onclick="mostrarSecao('galeria')">Galeria</a>
+      <a onclick="mostrarSecao('links')">Links</a>
+      <a onclick="mostrarSecao('contato')">Contato</a>
+      <a onclick="mostrarSecao('pedidos-oracao')">Pedidos de Oração</a>
+    </nav>
+  </header>
+
+  <main>
+    <img src="img/logo-base.jpg" class="logo" alt="Logo Base Aurora" />
+
+    <section id="inicio" class="active">
+      <div class="versiculo-do-dia" id="versiculoDoDia">
+        <!-- Versículo aparecerá aqui -->
+      </div>
+      <h2>Bem-vindo à nossa Base!</h2>
+      <p>
+        Esse é o site oficial da Escola Sabatina Teen Base Aurora. Aqui você encontra lições, agenda de atividades, fotos e muito mais!
+      </p>
+    </section>
+
+    <section id="agenda">
+      <h2>📆 Agenda Interativa da Base</h2>
+      <p>Clique em uma data e adicione um evento:</p>
+
+      <div style="margin-top: 20px;">
+        <input type="date" id="dataEvento" />
+        <input type="text" id="descricaoEvento" placeholder="Descrição do evento" />
+        <button class="button" onclick="adicionarEvento()">Adicionar</button>
+      </div>
+
+      <div id="listaEventos" style="margin-top: 30px; text-align: left;"></div>
+    </section>
+
+    <section id="galeria">
+      <h2>Galeria</h2>
+      <p>Confira abaixo algumas fotos das nossas atividades:</p>
+
+      <div class="galeria-container">
+        <!-- Imagem 1 -->
+        <a href="imagens/atividade1.jpg" target="_blank">
+          <img src="img/Imagem do WhatsApp de 2025-07-23 à(s) 15.22.12_7852bc2e.jpg" alt="Atividade 1" />
+        </a>
+
+        <!-- Imagem 2 -->
+        <a href="imagens/atividade2.jpg" target="_blank">
+          <img src="img/Imagem do WhatsApp de 2025-07-23 à(s) 15.19.05_c7d76686.jpg" alt="Atividade 2" />
+        </a>
+
+        <!-- Imagem 3 -->
+        <a href="imagens/atividade3.jpg" target="_blank">
+          <img src="img/Imagem do WhatsApp de 2025-07-23 à(s) 15.14.05_6b1766a4.jpg" alt="Atividade 3" />
+        </a>
+      </div>
+    </section>
 
     <section id="links">
       <h2>Links Úteis</h2>
       <ul>
-        <li><a href="links/Lição Adolescentes 2° trimestre 2025.pdf" target="_blank">📖 Lição do trimestre </a></li>
-        <li><a href="links/informartivo-mundial-infantil-2trim2025.pdf" target="_blank">📚 Informativo </a></li>
-        <li><a href="links/O libertador .pdf" target="_blank">📙 Livro Auxiliar </a></li>
+        <li><a href="links/Lição Adolescentes 2° trimestre 2025.pdf" target="_blank">📖 Lição do trimestre</a></li>
+        <li><a href="links/informartivo-mundial-infantil-2trim2025.pdf" target="_blank">📚 Informativo</a></li>
+        <li><a href="links/O libertador .pdf" target="_blank">📙 Livro Auxiliar</a></li>
         <li><a href="https://www.bibliaon.com/" target="_blank">📕 Bíblia Online</a></li>
         <li><a href="https://adventistas.org" target="_blank">🌍 Site Oficial da Igreja</a></li>
       </ul>
@@ -219,22 +395,72 @@
       <h2>📞 Contato da Base Aurora</h2>
       <p>Fale com a liderança ou acompanhe nossas redes sociais:</p>
 
-      <div style="display: flex; flex-direction: column; gap: 20px; align-items: center; margin-top: 30px;">
-        <a href="https://www.instagram.com/base.aurora_g148t" target="_blank"
-          style="background-color: #E1306C; color: white; padding: 12px 24px; border-radius: 10px; font-size: 1.1rem; text-decoration: none; font-weight: bold; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
-          📸 Instagram Oficial da Base
-        </a>
+      <div
+        style="display: flex; flex-direction: column; gap: 20px; align-items: center; margin-top: 30px;"
+      >
+        <a
+          href="https://www.instagram.com/base.aurora_g148t"
+          target="_blank"
+          style="
+            background-color: #e1306c;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+          "
+          >📸 Instagram Oficial da Base</a
+        >
 
-        <a href="https://chat.whatsapp.com/SEU_LINK_DO_GRUPO" target="_blank"
-          style="background-color: #25D366; color: white; padding: 12px 24px; border-radius: 10px; font-size: 1.1rem; text-decoration: none; font-weight: bold; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
-          💬 Grupo do WhatsApp da Base
-        </a>
+        <a
+          href="https://chat.whatsapp.com/SEU_LINK_DO_GRUPO"
+          target="_blank"
+          style="
+            background-color: #25d366;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+          "
+          >💬 Grupo do WhatsApp da Base</a
+        >
       </div>
 
       <p style="margin-top: 30px; color: #666;">
-        📍 Igreja Adventista do Sétimo Dia - Rua Natal, 42- Jardim Agari<br>
-⏰ Sábados às 9h – Escola Sabatina Adolescentes
+        📍 Igreja Adventista do Sétimo Dia - Rua Natal, 42- Jardim Agari<br />
+        ⏰ Sábados às 9h – Escola Sabatina Adolescentes
       </p>
+    </section>
+
+    <!-- Nova aba Pedidos de Oração -->
+    <section id="pedidos-oracao">
+      <h2>🙏 Pedidos de Oração</h2>
+      <p>Envie seu pedido e vamos orar juntos durante a semana!</p>
+
+      <form id="pedidoOracaoForm">
+        <label for="nomePedido">Seu nome (opcional):</label>
+        <input type="text" id="nomePedido" placeholder="Ex: João" maxlength="30" />
+
+        <label for="textoPedido">Pedido de oração:</label>
+        <textarea
+          id="textoPedido"
+          rows="5"
+          placeholder="Escreva aqui seu pedido..."
+          required
+          maxlength="500"
+        ></textarea>
+
+        <button type="submit" class="button" style="margin-top: 15px;">Enviar Pedido</button>
+      </form>
+
+      <div id="listaPedidos">
+        <!-- Lista de pedidos aparecerá aqui -->
+      </div>
     </section>
   </main>
 
@@ -243,13 +469,17 @@
   </footer>
 
   <script>
+    // Função para mostrar seções do site
     function mostrarSecao(id) {
       const secoes = document.querySelectorAll("section");
-      secoes.forEach(secao => secao.classList.remove("active"));
+      secoes.forEach((secao) => secao.classList.remove("active"));
       const ativa = document.getElementById(id);
       if (ativa) ativa.classList.add("active");
+      // Scroll para o topo ao mudar de seção
+      window.scrollTo(0, 0);
     }
 
+    // Eventos (Agenda)
     function carregarEventos() {
       const listaEventos = document.getElementById("listaEventos");
       const eventos = JSON.parse(localStorage.getItem("eventosBase")) || [];
@@ -293,8 +523,140 @@
       carregarEventos();
     }
 
-    // Carregar eventos ao abrir a página
-    carregarEventos();
+    // Pedidos de oração
+    const formPedido = document.getElementById("pedidoOracaoForm");
+    const listaPedidosDiv = document.getElementById("listaPedidos");
+
+    function carregarPedidos() {
+      const pedidos = JSON.parse(localStorage.getItem("pedidosOracao")) || [];
+      listaPedidosDiv.innerHTML = "<h3>Pedidos recebidos:</h3>";
+
+      if (pedidos.length === 0) {
+        listaPedidosDiv.innerHTML += "<p style='color: #777;'>Nenhum pedido enviado ainda.</p>";
+        return;
+      }
+
+      pedidos.forEach((pedido, index) => {
+        const nome = pedido.nome ? pedido.nome : "Anônimo";
+        const texto = pedido.texto;
+        listaPedidosDiv.innerHTML += `
+          <p>
+            <strong>${nome}:</strong> ${texto}
+            <button class="removerPedido" onclick="removerPedido(${index})" title="Remover pedido">x</button>
+          </p>
+        `;
+      });
+    }
+
+    function adicionarPedido(pedido) {
+      const pedidos = JSON.parse(localStorage.getItem("pedidosOracao")) || [];
+      pedidos.push(pedido);
+      localStorage.setItem("pedidosOracao", JSON.stringify(pedidos));
+      carregarPedidos();
+    }
+
+    function removerPedido(index) {
+      const pedidos = JSON.parse(localStorage.getItem("pedidosOracao")) || [];
+      pedidos.splice(index, 1);
+      localStorage.setItem("pedidosOracao", JSON.stringify(pedidos));
+      carregarPedidos();
+    }
+
+    formPedido.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const nome = document.getElementById("nomePedido").value.trim();
+      const texto = document.getElementById("textoPedido").value.trim();
+
+      if (!texto) {
+        alert("Por favor, escreva seu pedido de oração.");
+        return;
+      }
+
+      adicionarPedido({ nome, texto });
+      formPedido.reset();
+      alert("Pedido enviado com sucesso! Deus abençoe 🙏");
+    });
+
+    // Versículo do dia
+    const versiculos = [
+      {
+        texto:
+          "Porque eu bem sei os pensamentos que penso de vós, diz o Senhor; pensamentos de paz e não de mal, para vos dar um futuro e uma esperança.",
+        ref: "Jeremias 29:11",
+      },
+      {
+        texto:
+          "Posso todas as coisas naquele que me fortalece.",
+        ref: "Filipenses 4:13",
+      },
+      {
+        texto:
+          "O Senhor é o meu pastor; nada me faltará.",
+        ref: "Salmos 23:1",
+      },
+      {
+        texto:
+          "Entrega o teu caminho ao Senhor; confia nele, e ele o fará.",
+        ref: "Salmos 37:5",
+      },
+      {
+        texto:
+          "Buscai em primeiro lugar o Reino de Deus, e a sua justiça, e todas estas coisas vos serão acrescentadas.",
+        ref: "Mateus 6:33",
+      },
+      {
+        texto:
+          "Não se turbe o vosso coração; credes em Deus, crede também em mim.",
+        ref: "João 14:1",
+      },
+      {
+        texto:
+          "Lâmpada para os meus pés é tua palavra, e luz para o meu caminho.",
+        ref: "Salmos 119:105",
+      },
+    ];
+
+    function mostrarVersiculo() {
+      const div = document.getElementById("versiculoDoDia");
+      // Escolhe um versículo baseado no dia do ano para variar todo dia
+      const hoje = new Date();
+      const diaAno =
+        Math.floor(
+          (hoje - new Date(hoje.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24
+        ) % versiculos.length;
+      const v = versiculos[diaAno];
+      div.innerHTML = `"${v.texto}"<br><strong>– ${v.ref}</strong>`;
+    }
+
+    // Botão modo escuro
+    const btnModoEscuro = document.getElementById("btnModoEscuro");
+
+    function ativarModoEscuro(ativo) {
+      if (ativo) {
+        document.body.classList.add("dark-mode");
+        btnModoEscuro.textContent = "☀️";
+      } else {
+        document.body.classList.remove("dark-mode");
+        btnModoEscuro.textContent = "🌙";
+      }
+      localStorage.setItem("modoEscuro", ativo);
+    }
+
+    btnModoEscuro.addEventListener("click", () => {
+      const ativo = document.body.classList.contains("dark-mode");
+      ativarModoEscuro(!ativo);
+    });
+
+    // Ao carregar a página
+    window.onload = () => {
+      carregarEventos();
+      carregarPedidos();
+      mostrarVersiculo();
+
+      // Aplica modo escuro se salvo
+      const modoSalvo = localStorage.getItem("modoEscuro") === "true";
+      ativarModoEscuro(modoSalvo);
+    };
   </script>
 </body>
 </html>
