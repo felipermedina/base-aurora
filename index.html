@@ -43,17 +43,16 @@
     header {
       background-color: var(--verde);
       width: 100%;
-      padding: 20px 60px; /* espaço esquerda e direita para o botão hambúrguer e modo escuro */
+      padding: 20px 60px;
       color: white;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       position: relative;
 
       display: flex;
       align-items: center;
-      justify-content: center; /* centraliza o título */
+      justify-content: center;
     }
 
-    /* Botão hamburguer à esquerda */
     #btnHamburguer {
       position: absolute;
       left: 20px;
@@ -68,7 +67,6 @@
       z-index: 1002;
     }
 
-    /* Botão modo escuro à direita */
     #btnModoEscuro {
       position: absolute;
       right: 20px;
@@ -216,7 +214,6 @@
       background-color: #145e5b;
     }
 
-    /* Galeria */
     .galeria-container {
       display: flex;
       flex-wrap: wrap;
@@ -237,7 +234,6 @@
       transform: scale(1.05);
     }
 
-    /* Caixa de Versículo do Dia */
     .versiculo-do-dia {
       background: var(--amarelo);
       color: #333;
@@ -256,7 +252,6 @@
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
     }
 
-    /* Pedidos de oração */
     #pedidoOracaoForm {
       max-width: 600px;
       margin: 0 auto;
@@ -336,7 +331,6 @@
       background: #a30000;
     }
 
-    /* Menu Hambúrguer - Mobile */
     nav {
       display: flex;
       gap: 20px;
@@ -345,7 +339,7 @@
     @media (max-width: 700px) {
       nav {
         position: fixed;
-        top: 60px; /* logo + header padding */
+        top: 60px;
         left: 0;
         background-color: var(--verde);
         width: 200px;
@@ -381,6 +375,7 @@
       <a onclick="mostrarSecao('contato')">Contato</a>
       <a onclick="mostrarSecao('pedidos-oracao')">Pedidos de Oração</a>
       <a onclick="mostrarSecao('musicas')">Músicas</a>
+      <a onclick="mostrarSecao('escala-lanches')">Escala de Lanches</a>
     </nav>
   </header>
 
@@ -388,9 +383,7 @@
     <img src="img/logo-base.jpg" class="logo" alt="Logo Base Aurora" />
 
     <section id="inicio" class="active">
-      <div class="versiculo-do-dia" id="versiculoDoDia">
-        <!-- Versículo aparecerá aqui -->
-      </div>
+      <div class="versiculo-do-dia" id="versiculoDoDia"></div>
       <h2>Bem-vindo à nossa Base!</h2>
       <p>
         Esse é o site oficial da Escola Sabatina Teen Base Aurora. Aqui você encontra lições, agenda de atividades, fotos e muito mais!
@@ -415,17 +408,14 @@
       <p>Confira abaixo algumas fotos das nossas atividades:</p>
 
       <div class="galeria-container">
-        <!-- Imagem 1 -->
         <a href="imagens/atividade1.jpg" target="_blank">
           <img src="img/Imagem do WhatsApp de 2025-07-23 à(s) 15.22.12_7852bc2e.jpg" alt="Atividade 1" />
         </a>
 
-        <!-- Imagem 2 -->
         <a href="imagens/atividade2.jpg" target="_blank">
           <img src="img/Imagem do WhatsApp de 2025-07-23 à(s) 15.19.05_c7d76686.jpg" alt="Atividade 2" />
         </a>
 
-        <!-- Imagem 3 -->
         <a href="imagens/atividade3.jpg" target="_blank">
           <img src="img/Imagem do WhatsApp de 2025-07-23 à(s) 15.14.05_6b1766a4.jpg" alt="Atividade 3" />
         </a>
@@ -447,9 +437,7 @@
       <h2>📞 Contato da Base Aurora</h2>
       <p>Fale com a liderança ou acompanhe nossas redes sociais:</p>
 
-      <div
-        style="display: flex; flex-direction: column; gap: 20px; align-items: center; margin-top: 30px;"
-      >
+      <div style="display: flex; flex-direction: column; gap: 20px; align-items: center; margin-top: 30px;">
         <a
           href="https://www.instagram.com/base.aurora_g148t"
           target="_blank"
@@ -509,134 +497,202 @@
         <button type="submit" class="button" style="margin-top: 15px;">Enviar Pedido</button>
       </form>
 
-      <div id="listaPedidos">
-        <!-- Lista de pedidos aparecerá aqui -->
-      </div>
+      <div id="listaPedidos"></div>
     </section>
 
     <section id="musicas">
       <h2>🎵 Músicas para Louvor</h2>
-      <p>Pesquise uma música para tocarmos antes da lição:</p>
+      <p>Pesquise uma música para ouvir:</p>
       <input
         type="text"
-        id="pesquisaMusica"
-        placeholder="Digite o nome da música..."
-        style="padding: 10px; width: 80%; max-width: 400px; border-radius: 5px;"
+        id="inputBuscaMusica"
+        placeholder="Digite o nome da música"
+        style="width: 80%; max-width: 500px; padding: 8px; margin: 10px auto; display: block; border-radius: 5px; border: 1px solid #ccc;"
       />
-      <button
-        onclick="buscarMusica()"
-        style="padding: 10px 15px; border: none; background-color: #4caf50; color: white; border-radius: 5px; cursor: pointer;"
-      >
-        Buscar no YouTube
-      </button>
+      <ul id="listaMusicas" style="list-style: none; padding: 0; max-width: 500px; margin: auto;"></ul>
+    </section>
+
+    <!-- Nova aba: Escala de Lanches -->
+    <section id="escala-lanches">
+      <h2>🍎 Escala de Lanches</h2>
+      <p>Veja quem vai levar lanche nos próximos sábados e adicione novos responsáveis.</p>
+
+      <table id="tabelaEscala" style="width: 100%; max-width: 700px; margin: auto; border-collapse: collapse; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+        <thead style="background-color: var(--verde); color: white;">
+          <tr>
+            <th style="padding: 10px; text-align: left;">Data</th>
+            <th style="padding: 10px; text-align: left;">Responsável</th>
+            <th style="padding: 10px; text-align: left;">Descrição do Lanche</th>
+            <th style="padding: 10px; text-align: center; width: 60px;">Remover</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Linhas serão preenchidas via JS -->
+        </tbody>
+      </table>
+
+      <form id="formEscalaLanches" style="max-width: 700px; margin: 30px auto; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+        <input type="date" id="inputDataLanche" required style="flex: 1 1 150px; padding: 8px; border-radius: 5px; border: 1px solid #ccc;" />
+        <input type="text" id="inputNomeResponsavel" placeholder="Nome do responsável" required style="flex: 1 1 200px; padding: 8px; border-radius: 5px; border: 1px solid #ccc;" />
+        <input type="text" id="inputDescricaoLanche" placeholder="Descrição do lanche (ex: frutas, suco, bolo)" style="flex: 2 1 300px; padding: 8px; border-radius: 5px; border: 1px solid #ccc;" />
+        <button type="submit" class="button" style="flex: 1 1 100px;">Salvar</button>
+      </form>
     </section>
   </main>
 
   <footer>
-    &copy; 2025 Base Aurora | Desenvolvido por Felipe Medina
+    &copy; 2025 Base Aurora | G148 Teen
   </footer>
 
   <script>
-    // Função para mostrar seções do site
-    function mostrarSecao(id) {
-      const secoes = document.querySelectorAll("section");
-      secoes.forEach((secao) => secao.classList.remove("active"));
-      const ativa = document.getElementById(id);
-      if (ativa) ativa.classList.add("active");
-      // Fecha menu (no mobile) ao trocar de seção
-      fecharMenu();
-      // Scroll para o topo ao mudar de seção
-      window.scrollTo(0, 0);
-    }
-
-    // Abrir/fechar menu hamburguer (mobile)
+    // Controle do menu hamburguer para telas pequenas
     const btnHamburguer = document.getElementById("btnHamburguer");
-    const menuNavegacao = document.getElementById("menuNavegacao");
+    const navMenu = document.getElementById("menuNavegacao");
 
     btnHamburguer.addEventListener("click", () => {
-      menuNavegacao.classList.toggle("show");
+      navMenu.classList.toggle("show");
     });
 
-    function fecharMenu() {
-      menuNavegacao.classList.remove("show");
+    // Controle da troca de seções
+    function mostrarSecao(idSecao) {
+      document.querySelectorAll("main section").forEach((sec) => {
+        sec.classList.remove("active");
+      });
+      const secao = document.getElementById(idSecao);
+      if (secao) {
+        secao.classList.add("active");
+      }
+      // Fecha o menu no mobile ao clicar em uma aba
+      navMenu.classList.remove("show");
     }
 
-    // Eventos (Agenda)
+    // Controle modo escuro
+    const btnModoEscuro = document.getElementById("btnModoEscuro");
+
+    btnModoEscuro.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+      // Salva preferência localStorage
+      if (document.body.classList.contains("dark-mode")) {
+        localStorage.setItem("modoEscuroBaseAurora", "true");
+      } else {
+        localStorage.setItem("modoEscuroBaseAurora", "false");
+      }
+    });
+
+    // Ao carregar, aplica preferência modo escuro
+    window.addEventListener("load", () => {
+      if (localStorage.getItem("modoEscuroBaseAurora") === "true") {
+        document.body.classList.add("dark-mode");
+      }
+      carregarEventos();
+      carregarPedidosOracao();
+      carregarEscalaLanches();
+      carregarVersiculoDoDia();
+    });
+
+    // ====================
+    // Versículo do dia
+    // ====================
+    const versiculos = [
+      "Filipenses 4:13 — Posso todas as coisas naquele que me fortalece.",
+      "Salmos 23:1 — O Senhor é o meu pastor; nada me faltará.",
+      "Isaías 41:10 — Não temas, porque eu sou contigo; não te assombres, porque eu sou teu Deus.",
+      "Mateus 11:28 — Vinde a mim, todos os que estais cansados e oprimidos, e eu vos aliviarei.",
+      "Romanos 8:28 — E sabemos que todas as coisas contribuem juntamente para o bem daqueles que amam a Deus."
+    ];
+
+    function carregarVersiculoDoDia() {
+      const index = new Date().getDate() % versiculos.length;
+      document.getElementById("versiculoDoDia").textContent = versiculos[index];
+    }
+
+    // ====================
+    // Agenda / Eventos
+    // ====================
     function carregarEventos() {
-      const listaEventos = document.getElementById("listaEventos");
-      const eventos = JSON.parse(localStorage.getItem("eventosBase")) || [];
-      listaEventos.innerHTML = "<h3>📋 Eventos marcados:</h3>";
+      const eventos = JSON.parse(localStorage.getItem("eventosBaseAurora")) || [];
+      const lista = document.getElementById("listaEventos");
+      lista.innerHTML = "";
 
       if (eventos.length === 0) {
-        listaEventos.innerHTML += "<p style='color: #777;'>Nenhum evento ainda.</p>";
+        lista.textContent = "Nenhum evento cadastrado.";
         return;
       }
 
-      eventos.forEach((evento, index) => {
-        listaEventos.innerHTML += `
-          <p>
-            <strong>${evento.data}</strong>: ${evento.descricao}
-            <button onclick="removerEvento(${index})" style="margin-left: 10px; background: crimson; color: white; border: none; padding: 4px 8px; border-radius: 5px; cursor: pointer;">Remover</button>
-          </p>
-        `;
+      eventos.sort((a, b) => new Date(a.data) - new Date(b.data));
+
+      eventos.forEach((evento, i) => {
+        const div = document.createElement("div");
+        div.style.backgroundColor = "var(--verde)";
+        div.style.color = "white";
+        div.style.margin = "10px 0";
+        div.style.padding = "10px";
+        div.style.borderRadius = "8px";
+        div.style.position = "relative";
+
+        const dataFormatada = new Date(evento.data).toLocaleDateString("pt-BR");
+        div.textContent = `${dataFormatada} — ${evento.descricao}`;
+
+        // Botão remover
+        const btnRemover = document.createElement("button");
+        btnRemover.textContent = "X";
+        btnRemover.title = "Remover evento";
+        btnRemover.style.position = "absolute";
+        btnRemover.style.right = "10px";
+        btnRemover.style.top = "10px";
+        btnRemover.style.background = "crimson";
+        btnRemover.style.color = "white";
+        btnRemover.style.border = "none";
+        btnRemover.style.borderRadius = "5px";
+        btnRemover.style.cursor = "pointer";
+        btnRemover.style.width = "24px";
+        btnRemover.style.height = "24px";
+        btnRemover.style.fontWeight = "bold";
+        btnRemover.addEventListener("click", () => {
+          removerEvento(i);
+        });
+
+        div.appendChild(btnRemover);
+        lista.appendChild(div);
       });
     }
 
     function adicionarEvento() {
-      const data = document.getElementById("dataEvento").value;
-      const descricao = document.getElementById("descricaoEvento").value;
+      const dataInput = document.getElementById("dataEvento");
+      const descricaoInput = document.getElementById("descricaoEvento");
+
+      const data = dataInput.value;
+      const descricao = descricaoInput.value.trim();
 
       if (!data || !descricao) {
-        alert("Preencha a data e a descrição.");
+        alert("Por favor, preencha a data e a descrição do evento.");
         return;
       }
 
-      const eventos = JSON.parse(localStorage.getItem("eventosBase")) || [];
+      let eventos = JSON.parse(localStorage.getItem("eventosBaseAurora")) || [];
       eventos.push({ data, descricao });
-      localStorage.setItem("eventosBase", JSON.stringify(eventos));
+
+      localStorage.setItem("eventosBaseAurora", JSON.stringify(eventos));
       carregarEventos();
-      document.getElementById("dataEvento").value = "";
-      document.getElementById("descricaoEvento").value = "";
+      dataInput.value = "";
+      descricaoInput.value = "";
+      alert("Evento adicionado com sucesso!");
     }
 
     function removerEvento(index) {
-      const eventos = JSON.parse(localStorage.getItem("eventosBase")) || [];
+      let eventos = JSON.parse(localStorage.getItem("eventosBaseAurora")) || [];
       eventos.splice(index, 1);
-      localStorage.setItem("eventosBase", JSON.stringify(eventos));
+      localStorage.setItem("eventosBaseAurora", JSON.stringify(eventos));
       carregarEventos();
     }
 
-    // Pedidos de oração
-    const formPedido = document.getElementById("pedidoOracaoForm");
-    const listaPedidos = document.getElementById("listaPedidos");
-
-    function carregarPedidos() {
-      const pedidos = JSON.parse(localStorage.getItem("pedidosOracaoBase")) || [];
-      listaPedidos.innerHTML = "";
-      pedidos.forEach((pedido, index) => {
-        const nome = pedido.nome ? pedido.nome : "Anônimo";
-        const p = document.createElement("p");
-        p.textContent = `${nome}: ${pedido.texto}`;
-        const btnRemover = document.createElement("button");
-        btnRemover.textContent = "X";
-        btnRemover.className = "removerPedido";
-        btnRemover.onclick = () => {
-          removerPedido(index);
-        };
-        p.appendChild(btnRemover);
-        listaPedidos.appendChild(p);
-      });
-    }
-
-    function removerPedido(index) {
-      const pedidos = JSON.parse(localStorage.getItem("pedidosOracaoBase")) || [];
-      pedidos.splice(index, 1);
-      localStorage.setItem("pedidosOracaoBase", JSON.stringify(pedidos));
-      carregarPedidos();
-    }
-
-    formPedido.addEventListener("submit", (e) => {
+    // ====================
+    // Pedidos de Oração
+    // ====================
+    const formPedidoOracao = document.getElementById("pedidoOracaoForm");
+    formPedidoOracao.addEventListener("submit", (e) => {
       e.preventDefault();
+
       const nome = document.getElementById("nomePedido").value.trim();
       const texto = document.getElementById("textoPedido").value.trim();
 
@@ -645,110 +701,155 @@
         return;
       }
 
-      const pedidos = JSON.parse(localStorage.getItem("pedidosOracaoBase")) || [];
-      pedidos.push({ nome, texto });
-      localStorage.setItem("pedidosOracaoBase", JSON.stringify(pedidos));
-      carregarPedidos();
+      let pedidos = JSON.parse(localStorage.getItem("pedidosOracaoBaseAurora")) || [];
+      pedidos.push({ nome, texto, id: Date.now() });
 
-      formPedido.reset();
+      localStorage.setItem("pedidosOracaoBaseAurora", JSON.stringify(pedidos));
+      carregarPedidosOracao();
+      formPedidoOracao.reset();
       alert("Pedido enviado com sucesso!");
     });
 
-    const versiculos = [
-      {
-        texto:
-          "Porque eu bem sei os pensamentos que penso de vós, diz o Senhor; pensamentos de paz e não de mal, para vos dar um futuro e uma esperança.",
-        ref: "Jeremias 29:11",
-      },
-      {
-        texto: "Posso todas as coisas naquele que me fortalece.",
-        ref: "Filipenses 4:13",
-      },
-      {
-        texto: "O Senhor é o meu pastor; nada me faltará.",
-        ref: "Salmos 23:1",
-      },
-      {
-        texto: "Entrega o teu caminho ao Senhor; confia nele, e ele o fará.",
-        ref: "Salmos 37:5",
-      },
-      {
-        texto: "Buscai em primeiro lugar o Reino de Deus, e a sua justiça, e todas estas coisas vos serão acrescentadas.",
-        ref: "Mateus 6:33",
-      },
-      {
-        texto: "Não se turbe o vosso coração; credes em Deus, crede também em mim.",
-        ref: "João 14:1",
-      },
-      {
-        texto: "Lâmpada para os meus pés é tua palavra, e luz para o meu caminho.",
-        ref: "Salmos 119:105",
-      },
-    ];
+    function carregarPedidosOracao() {
+      const lista = document.getElementById("listaPedidos");
+      const pedidos = JSON.parse(localStorage.getItem("pedidosOracaoBaseAurora")) || [];
 
-    function mostrarVersiculo() {
-      const div = document.getElementById("versiculoDoDia");
-      const hoje = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-
-      // Pega os dados salvos
-      let dataSalva = localStorage.getItem("dataVersiculo");
-      let indice = parseInt(localStorage.getItem("indiceVersiculo"), 10);
-
-      if (!dataSalva || dataSalva !== hoje || isNaN(indice)) {
-        // Se não tem data salva, ou é dia diferente, ou índice inválido:
-        if (isNaN(indice)) indice = 0;
-        else indice = (indice + 1) % versiculos.length;
-
-        // Salva os dados novos
-        localStorage.setItem("dataVersiculo", hoje);
-        localStorage.setItem("indiceVersiculo", indice);
-      }
-
-      div.innerHTML = `
-        <p>"${versiculos[indice].texto}"</p>
-        <p style="font-weight:bold; text-align:right;">- ${versiculos[indice].ref}</p>
-      `;
-    }
-
-    // Modo escuro
-    const btnModoEscuro = document.getElementById("btnModoEscuro");
-
-    btnModoEscuro.addEventListener("click", () => {
-      document.body.classList.toggle("dark-mode");
-      // Salvar preferência no localStorage
-      if (document.body.classList.contains("dark-mode")) {
-        localStorage.setItem("modoEscuro", "true");
-        btnModoEscuro.textContent = "☀️";
-      } else {
-        localStorage.setItem("modoEscuro", "false");
-        btnModoEscuro.textContent = "🌙";
-      }
-    });
-
-    // Aplica modo escuro ao carregar página
-    window.addEventListener("load", () => {
-      mostrarVersiculo();
-      carregarEventos();
-      carregarPedidos();
-
-      if (localStorage.getItem("modoEscuro") === "true") {
-        document.body.classList.add("dark-mode");
-        btnModoEscuro.textContent = "☀️";
-      } else {
-        btnModoEscuro.textContent = "🌙";
-      }
-    });
-
-    // Busca música no YouTube pelo texto do input
-    function buscarMusica() {
-      const texto = document.getElementById("pesquisaMusica").value.trim();
-      if (!texto) {
-        alert("Digite o nome da música para buscar.");
+      lista.innerHTML = "";
+      if (pedidos.length === 0) {
+        lista.textContent = "Nenhum pedido de oração enviado ainda.";
         return;
       }
-      const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(texto)}`;
-      window.open(url, "_blank");
+
+      pedidos.forEach((pedido) => {
+        const p = document.createElement("p");
+        p.style.position = "relative";
+
+        p.textContent = pedido.nome ? `${pedido.nome}: ${pedido.texto}` : pedido.texto;
+
+        const btnRemover = document.createElement("button");
+        btnRemover.textContent = "X";
+        btnRemover.classList.add("removerPedido");
+        btnRemover.title = "Remover pedido";
+        btnRemover.addEventListener("click", () => {
+          removerPedidoOracao(pedido.id);
+        });
+
+        p.appendChild(btnRemover);
+        lista.appendChild(p);
+      });
     }
+
+    function removerPedidoOracao(id) {
+      let pedidos = JSON.parse(localStorage.getItem("pedidosOracaoBaseAurora")) || [];
+      pedidos = pedidos.filter((pedido) => pedido.id !== id);
+      localStorage.setItem("pedidosOracaoBaseAurora", JSON.stringify(pedidos));
+      carregarPedidosOracao();
+    }
+
+    // ====================
+    // Músicas
+    // ====================
+    const listaMusicas = document.getElementById("listaMusicas");
+    const inputBuscaMusica = document.getElementById("inputBuscaMusica");
+
+    const musicasBase = [
+      "Quero ser como Jesus",
+      "Grandioso és Tu",
+      "Mais Perto Quero Estar",
+      "Alvo Mais Que a Neve",
+      "Céu de Luz",
+      "Vem, Espírito Santo"
+    ];
+
+    function filtrarMusicas() {
+      const textoBusca = inputBuscaMusica.value.toLowerCase();
+      listaMusicas.innerHTML = "";
+
+      const musicasFiltradas = musicasBase.filter((m) => m.toLowerCase().includes(textoBusca));
+      if (musicasFiltradas.length === 0) {
+        listaMusicas.innerHTML = "<li>Nenhuma música encontrada.</li>";
+        return;
+      }
+
+      musicasFiltradas.forEach((musica) => {
+        const li = document.createElement("li");
+        li.textContent = musica;
+        listaMusicas.appendChild(li);
+      });
+    }
+
+    inputBuscaMusica.addEventListener("input", filtrarMusicas);
+    filtrarMusicas();
+
+    // ====================
+    // Escala de Lanches
+    // ====================
+    function carregarEscalaLanches() {
+      const escala = JSON.parse(localStorage.getItem("escalaLanchesBase")) || [];
+      const tbody = document.querySelector("#escala-lanches tbody");
+      tbody.innerHTML = "";
+
+      if (escala.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 20px; color: #666;">Nenhum responsável cadastrado.</td></tr>`;
+        return;
+      }
+
+      escala.sort((a,b) => new Date(a.data) - new Date(b.data));
+
+      escala.forEach((item, index) => {
+        const tr = document.createElement("tr");
+
+        const dataFormatada = new Date(item.data).toLocaleDateString("pt-BR");
+
+        tr.innerHTML = `
+          <td style="padding: 10px;">${dataFormatada}</td>
+          <td style="padding: 10px;">${item.nome}</td>
+          <td style="padding: 10px;">${item.descricao || ""}</td>
+          <td style="padding: 10px; text-align: center;">
+            <button style="background: crimson; color: white; border: none; border-radius: 5px; padding: 4px 8px; cursor: pointer;" title="Remover" onclick="removerEscalaLanche(${index})">X</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function adicionarEscalaLanche(event) {
+      event.preventDefault();
+      const data = document.getElementById("inputDataLanche").value;
+      const nome = document.getElementById("inputNomeResponsavel").value.trim();
+      const descricao = document.getElementById("inputDescricaoLanche").value.trim();
+
+      if (!data || !nome) {
+        alert("Por favor, preencha a data e o nome do responsável.");
+        return;
+      }
+
+      let escala = JSON.parse(localStorage.getItem("escalaLanchesBase")) || [];
+
+      // Verifica se já tem um responsável para aquela data (não permite duplicatas)
+      const existeIndex = escala.findIndex((item) => item.data === data);
+      if (existeIndex >= 0) {
+        // Atualiza o registro existente
+        escala[existeIndex] = { data, nome, descricao };
+      } else {
+        // Adiciona novo registro
+        escala.push({ data, nome, descricao });
+      }
+
+      localStorage.setItem("escalaLanchesBase", JSON.stringify(escala));
+      carregarEscalaLanches();
+      document.getElementById("formEscalaLanches").reset();
+      alert("Escala salva com sucesso!");
+    }
+
+    function removerEscalaLanche(index) {
+      let escala = JSON.parse(localStorage.getItem("escalaLanchesBase")) || [];
+      escala.splice(index, 1);
+      localStorage.setItem("escalaLanchesBase", JSON.stringify(escala));
+      carregarEscalaLanches();
+    }
+
+    document.getElementById("formEscalaLanches").addEventListener("submit", adicionarEscalaLanche);
   </script>
 </body>
 </html>
