@@ -329,6 +329,8 @@
       <a onclick="mostrarSecao('links')">Links</a>
       <a onclick="mostrarSecao('contato')">Contato</a>
       <a onclick="mostrarSecao('pedidos-oracao')">Pedidos de Oração</a>
+      <!-- Nova aba de músicas -->
+      <a onclick="mostrarSecao('musicas')">Músicas</a>
     </nav>
   </header>
 
@@ -462,6 +464,24 @@
         <!-- Lista de pedidos aparecerá aqui -->
       </div>
     </section>
+
+    <!-- Nova aba Músicas -->
+    <section id="musicas">
+      <h2>🎵 Músicas para Louvor</h2>
+      <p>Pesquise uma música para tocarmos antes da lição:</p>
+      <input
+        type="text"
+        id="pesquisaMusica"
+        placeholder="Digite o nome da música..."
+        style="padding: 10px; width: 80%; max-width: 400px; border-radius: 5px;"
+      />
+      <button
+        onclick="buscarMusica()"
+        style="padding: 10px 15px; border: none; background-color: #4caf50; color: white; border-radius: 5px; cursor: pointer;"
+      >
+        Buscar no YouTube
+      </button>
+    </section>
   </main>
 
   <footer>
@@ -512,8 +532,9 @@
       const eventos = JSON.parse(localStorage.getItem("eventosBase")) || [];
       eventos.push({ data, descricao });
       localStorage.setItem("eventosBase", JSON.stringify(eventos));
-      document.getElementById("descricaoEvento").value = "";
       carregarEventos();
+      document.getElementById("dataEvento").value = "";
+      document.getElementById("descricaoEvento").value = "";
     }
 
     function removerEvento(index) {
@@ -525,44 +546,34 @@
 
     // Pedidos de oração
     const formPedido = document.getElementById("pedidoOracaoForm");
-    const listaPedidosDiv = document.getElementById("listaPedidos");
+    const listaPedidos = document.getElementById("listaPedidos");
 
     function carregarPedidos() {
-      const pedidos = JSON.parse(localStorage.getItem("pedidosOracao")) || [];
-      listaPedidosDiv.innerHTML = "<h3>Pedidos recebidos:</h3>";
-
-      if (pedidos.length === 0) {
-        listaPedidosDiv.innerHTML += "<p style='color: #777;'>Nenhum pedido enviado ainda.</p>";
-        return;
-      }
-
+      const pedidos = JSON.parse(localStorage.getItem("pedidosOracaoBase")) || [];
+      listaPedidos.innerHTML = "";
       pedidos.forEach((pedido, index) => {
         const nome = pedido.nome ? pedido.nome : "Anônimo";
-        const texto = pedido.texto;
-        listaPedidosDiv.innerHTML += `
-          <p>
-            <strong>${nome}:</strong> ${texto}
-            <button class="removerPedido" onclick="removerPedido(${index})" title="Remover pedido">x</button>
-          </p>
-        `;
+        const p = document.createElement("p");
+        p.textContent = `${nome}: ${pedido.texto}`;
+        const btnRemover = document.createElement("button");
+        btnRemover.textContent = "X";
+        btnRemover.className = "removerPedido";
+        btnRemover.onclick = () => {
+          removerPedido(index);
+        };
+        p.appendChild(btnRemover);
+        listaPedidos.appendChild(p);
       });
     }
 
-    function adicionarPedido(pedido) {
-      const pedidos = JSON.parse(localStorage.getItem("pedidosOracao")) || [];
-      pedidos.push(pedido);
-      localStorage.setItem("pedidosOracao", JSON.stringify(pedidos));
-      carregarPedidos();
-    }
-
     function removerPedido(index) {
-      const pedidos = JSON.parse(localStorage.getItem("pedidosOracao")) || [];
+      const pedidos = JSON.parse(localStorage.getItem("pedidosOracaoBase")) || [];
       pedidos.splice(index, 1);
-      localStorage.setItem("pedidosOracao", JSON.stringify(pedidos));
+      localStorage.setItem("pedidosOracaoBase", JSON.stringify(pedidos));
       carregarPedidos();
     }
 
-    formPedido.addEventListener("submit", function (e) {
+    formPedido.addEventListener("submit", (e) => {
       e.preventDefault();
       const nome = document.getElementById("nomePedido").value.trim();
       const texto = document.getElementById("textoPedido").value.trim();
@@ -572,90 +583,90 @@
         return;
       }
 
-      adicionarPedido({ nome, texto });
+      const pedidos = JSON.parse(localStorage.getItem("pedidosOracaoBase")) || [];
+      pedidos.push({ nome, texto });
+      localStorage.setItem("pedidosOracaoBase", JSON.stringify(pedidos));
+      carregarPedidos();
+
       formPedido.reset();
-      alert("Pedido enviado com sucesso! Deus abençoe 🙏");
+      alert("Pedido enviado com sucesso!");
     });
 
-    // Versículo do dia
-    const versiculos = [
-      {
-        texto:
-          "Porque eu bem sei os pensamentos que penso de vós, diz o Senhor; pensamentos de paz e não de mal, para vos dar um futuro e uma esperança.",
-        ref: "Jeremias 29:11",
-      },
-      {
-        texto:
-          "Posso todas as coisas naquele que me fortalece.",
-        ref: "Filipenses 4:13",
-      },
-      {
-        texto:
-          "O Senhor é o meu pastor; nada me faltará.",
-        ref: "Salmos 23:1",
-      },
-      {
-        texto:
-          "Entrega o teu caminho ao Senhor; confia nele, e ele o fará.",
-        ref: "Salmos 37:5",
-      },
-      {
-        texto:
-          "Buscai em primeiro lugar o Reino de Deus, e a sua justiça, e todas estas coisas vos serão acrescentadas.",
-        ref: "Mateus 6:33",
-      },
-      {
-        texto:
-          "Não se turbe o vosso coração; credes em Deus, crede também em mim.",
-        ref: "João 14:1",
-      },
-      {
-        texto:
-          "Lâmpada para os meus pés é tua palavra, e luz para o meu caminho.",
-        ref: "Salmos 119:105",
-      },
-    ];
+   const versiculos = [
+  {
+    texto:
+      "Porque eu bem sei os pensamentos que penso de vós, diz o Senhor; pensamentos de paz e não de mal, para vos dar um futuro e uma esperança.",
+    ref: "Jeremias 29:11",
+  },
+  {
+    texto: "Posso todas as coisas naquele que me fortalece.",
+    ref: "Filipenses 4:13",
+  },
+  {
+    texto: "O Senhor é o meu pastor; nada me faltará.",
+    ref: "Salmos 23:1",
+  },
+  {
+    texto: "Entrega o teu caminho ao Senhor; confia nele, e ele o fará.",
+    ref: "Salmos 37:5",
+  },
+  {
+    texto: "Buscai em primeiro lugar o Reino de Deus, e a sua justiça, e todas estas coisas vos serão acrescentadas.",
+    ref: "Mateus 6:33",
+  },
+  {
+    texto: "Não se turbe o vosso coração; credes em Deus, crede também em mim.",
+    ref: "João 14:1",
+  },
+  {
+    texto: "Lâmpada para os meus pés é tua palavra, e luz para o meu caminho.",
+    ref: "Salmos 119:105",
+  },
+];
 
-    function mostrarVersiculo() {
-      const div = document.getElementById("versiculoDoDia");
-      // Escolhe um versículo baseado no dia do ano para variar todo dia
-      const hoje = new Date();
-      const diaAno =
-        Math.floor(
-          (hoje - new Date(hoje.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24
-        ) % versiculos.length;
-      const v = versiculos[diaAno];
-      div.innerHTML = `"${v.texto}"<br><strong>– ${v.ref}</strong>`;
-    }
+function mostrarVersiculo() {
+  const div = document.getElementById("versiculoDoDia");
+  const hoje = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 
-    // Botão modo escuro
+  // Pega os dados salvos
+  let dataSalva = localStorage.getItem("dataVersiculo");
+  let indice = parseInt(localStorage.getItem("indiceVersiculo"), 10);
+
+  if (!dataSalva || dataSalva !== hoje || isNaN(indice)) {
+    // Se não tem data salva, ou é dia diferente, ou índice inválido:
+    if (isNaN(indice)) indice = 0;
+    else indice = (indice + 1) % versiculos.length;
+
+    // Salva os dados novos
+    localStorage.setItem("dataVersiculo", hoje);
+    localStorage.setItem("indiceVersiculo", indice);
+  }
+
+  const v = versiculos[indice];
+  div.innerHTML = `"${v.texto}"<br><strong>– ${v.ref}</strong>`;
+}
+
+
+    // Modo escuro
     const btnModoEscuro = document.getElementById("btnModoEscuro");
-
-    function ativarModoEscuro(ativo) {
-      if (ativo) {
-        document.body.classList.add("dark-mode");
-        btnModoEscuro.textContent = "☀️";
-      } else {
-        document.body.classList.remove("dark-mode");
-        btnModoEscuro.textContent = "🌙";
-      }
-      localStorage.setItem("modoEscuro", ativo);
-    }
-
     btnModoEscuro.addEventListener("click", () => {
-      const ativo = document.body.classList.contains("dark-mode");
-      ativarModoEscuro(!ativo);
+      document.body.classList.toggle("dark-mode");
     });
 
-    // Ao carregar a página
+    // Função de buscar música no YouTube
+    function buscarMusica() {
+      const termo = document.getElementById("pesquisaMusica").value.trim();
+      if (termo !== "") {
+        const busca = encodeURIComponent(termo.toLowerCase());
+        window.open(`https://www.youtube.com/results?search_query=${busca}`, "_blank");
+      }
+    }
+
+    // Inicializações
     window.onload = () => {
+      mostrarVersiculo();
       carregarEventos();
       carregarPedidos();
-      mostrarVersiculo();
-
-      // Aplica modo escuro se salvo
-      const modoSalvo = localStorage.getItem("modoEscuro") === "true";
-      ativarModoEscuro(modoSalvo);
     };
   </script>
 </body>
