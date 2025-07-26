@@ -351,7 +351,7 @@
     <button id="btnModoEscuro" title="Alternar modo claro/escuro">🌙</button>
     <nav id="menuNavegacao">
       <a onclick="mostrarSecao('inicio')">Início</a>
-      <a onclick="mostrarSecao('agenda')">Agenda</a>
+      <a onclick="mostrarSecao('agenda')">Eventos</a>
       <a onclick="mostrarSecao('galeria')">Galeria</a>
       <a onclick="mostrarSecao('links')">Links</a>
       <a onclick="mostrarSecao('contato')">Contato</a>
@@ -373,7 +373,7 @@
     </section>
 
     <section id="agenda">
-      <h2>📆 Agenda</h2>
+      <h2>📆 Eventos</h2>
       <p>Clique em uma data e adicione um evento:</p>
       <div style="margin-top: 20px;">
         <input type="date" id="dataEvento" />
@@ -418,7 +418,7 @@
           📸 Instagram Oficial da Base
         </a>
         <a href="https://wa.me/5543920002787" target="_blank" style="background-color: var(--verde); color: white; padding: 12px 24px; border-radius: 10px; font-size: 1.1rem; text-decoration: none; font-weight: bold; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);">
-          💬 Chamar Tia Marina no WhatsApp
+          💬 Zap da Coordenação
         </a>
       </div>
       <p style="margin-top: 30px; color: #666;">
@@ -461,237 +461,212 @@
       <h2>🥪 Escala de Lanches</h2>
       <p>Cadastre os responsáveis pelos lanches:</p>
       <form id="formEscalaLanches" style="max-width: 600px; margin: 0 auto; text-align: left;">
-        <label for="inputDataLanche">Data:</label>
-        <input type="date" id="inputDataLanche" required />
-        <label for="inputResponsavelLanche">Responsável:</label>
-        <input type="text" id="inputResponsavelLanche" placeholder="Nome do responsável" required maxlength="50" />
-        <label for="inputDescricaoLanche">Descrição do lanche (opcional):</label>
-        <input type="text" id="inputDescricaoLanche" placeholder="Ex: Bolo de chocolate" maxlength="100" />
-        <button type="submit" class="button" style="margin-top: 10px;">Adicionar</button>
+        <label for="nomeLanche">Nome:</label>
+        <input type="text" id="nomeLanche" required />
+        <label for="dataLanche">Data:</label>
+        <input type="date" id="dataLanche" required />
+        <label for="descricaoLanche">Descrição do lanche:</label>
+        <textarea id="descricaoLanche" rows="3"></textarea>
+        <button type="submit" class="button" style="margin-top: 15px;">Adicionar à Escala</button>
       </form>
-      <table>
+      <table id="tabelaEscala" style="margin-top: 20px;">
         <thead>
           <tr>
+            <th>Nome</th>
             <th>Data</th>
-            <th>Responsável</th>
             <th>Descrição</th>
-            <th>Remover</th>
+            <th>Ação</th>
           </tr>
         </thead>
-        <tbody id="tabelaLanchesCorpo"></tbody>
+        <tbody id="corpoTabelaEscala"></tbody>
       </table>
     </section>
   </main>
 
   <footer>
-    &copy; 2025 Base Aurora - G148 Teen | Todos os direitos reservados
+    &copy; 2025 Base Aurora - Desenvolvido por Felipe.
   </footer>
 
   <script>
-    // Modo escuro
-    const btnModoEscuro = document.getElementById('btnModoEscuro');
-    btnModoEscuro.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-      salvarModo();
-    });
-
-    function salvarModo() {
-      const modo = document.body.classList.contains('dark-mode');
-      localStorage.setItem('modoEscuro', modo);
-    }
-
-    function carregarModo() {
-      const modo = localStorage.getItem('modoEscuro') === 'true';
-      if (modo) {
-        document.body.classList.add('dark-mode');
+    // Mostrar seções com abas
+    function mostrarSecao(id) {
+      document.querySelectorAll("section").forEach((sec) => sec.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      if (window.innerWidth < 700) {
+        document.getElementById("menuNavegacao").classList.remove("show");
       }
     }
-    carregarModo();
 
-    // Menu hamburguer
-    const btnHamburguer = document.getElementById('btnHamburguer');
-    const menuNavegacao = document.getElementById('menuNavegacao');
-
-    btnHamburguer.addEventListener('click', () => {
-      menuNavegacao.classList.toggle('show');
+    // Botão hamburguer toggle menu mobile
+    document.getElementById("btnHamburguer").addEventListener("click", () => {
+      document.getElementById("menuNavegacao").classList.toggle("show");
     });
 
-    // Função para mostrar seção
-    function mostrarSecao(id) {
-      const secoes = document.querySelectorAll('main section');
-      secoes.forEach(sec => {
-        if (sec.id === id) {
-          sec.classList.add('active');
-        } else {
-          sec.classList.remove('active');
-        }
-      });
-      // Fechar menu no mobile após clique
-      menuNavegacao.classList.remove('show');
-    }
+    // Botão modo escuro
+    const btnModoEscuro = document.getElementById("btnModoEscuro");
+    btnModoEscuro.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+      if (document.body.classList.contains("dark-mode")) {
+        btnModoEscuro.textContent = "☀️";
+      } else {
+        btnModoEscuro.textContent = "🌙";
+      }
+    });
 
-    // Versículos do dia (rotativo, muda todo dia)
+    // Versículo do dia (exemplo estático, pode substituir por API se quiser)
     const versiculos = [
       "Filipenses 4:13 - Posso todas as coisas naquele que me fortalece.",
       "Salmos 23:1 - O Senhor é o meu pastor; nada me faltará.",
-      "Jeremias 29:11 - Porque eu bem sei os pensamentos que penso de vós, diz o Senhor.",
-      "Romanos 8:28 - Sabemos que todas as coisas cooperam para o bem daqueles que amam a Deus.",
-      "Isaías 41:10 - Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus.",
-      "Provérbios 3:5-6 - Confia no Senhor de todo o teu coração e não te estribes no teu próprio entendimento."
+      "Jeremias 29:11 - Porque eu sei os planos que tenho para vós.",
     ];
-
-    function mostrarVersiculoDoDia() {
-      const hoje = new Date();
-      const indice = hoje.getDate() % versiculos.length;
-      document.getElementById('versiculoDoDia').textContent = versiculos[indice];
+    const versiculoDoDiaEl = document.getElementById("versiculoDoDia");
+    function mostrarVersiculo() {
+      const index = new Date().getDate() % versiculos.length;
+      versiculoDoDiaEl.textContent = versiculos[index];
     }
-    mostrarVersiculoDoDia();
-
-    // Agenda - eventos
-    let eventos = JSON.parse(localStorage.getItem('eventos')) || [];
-
-    function salvarEventos() {
-      localStorage.setItem('eventos', JSON.stringify(eventos));
-    }
-
-    function mostrarEventos() {
-      const listaEventos = document.getElementById('listaEventos');
-      if (eventos.length === 0) {
-        listaEventos.innerHTML = '<p>Nenhum evento cadastrado.</p>';
-        return;
-      }
-      let html = '<ul>';
-      eventos.forEach((evento, i) => {
-        html += `<li><strong>${evento.data}</strong>: ${evento.descricao} <button onclick="removerEvento(${i})" class="button" style="background-color: crimson;">X</button></li>`;
-      });
-      html += '</ul>';
-      listaEventos.innerHTML = html;
-    }
-
-    function removerEvento(indice) {
-      eventos.splice(indice, 1);
-      salvarEventos();
-      mostrarEventos();
-    }
-
-    document.getElementById('btnAdicionarEvento').addEventListener('click', () => {
-      const dataEvento = document.getElementById('dataEvento').value;
-      const descricaoEvento = document.getElementById('descricaoEvento').value.trim();
-      if (!dataEvento || !descricaoEvento) {
-        alert('Por favor, preencha data e descrição do evento.');
-        return;
-      }
-      eventos.push({ data: dataEvento, descricao: descricaoEvento });
-      salvarEventos();
-      mostrarEventos();
-      document.getElementById('dataEvento').value = '';
-      document.getElementById('descricaoEvento').value = '';
-    });
-
-    mostrarEventos();
+    mostrarVersiculo();
 
     // Pedidos de oração
-    let pedidos = JSON.parse(localStorage.getItem('pedidosOracao')) || [];
+    const formPedido = document.getElementById("pedidoOracaoForm");
+    const listaPedidos = document.getElementById("listaPedidos");
 
-    function salvarPedidos() {
-      localStorage.setItem('pedidosOracao', JSON.stringify(pedidos));
-    }
-
-    function mostrarPedidos() {
-      const listaPedidos = document.getElementById('listaPedidos');
-      if (pedidos.length === 0) {
-        listaPedidos.innerHTML = '<p>Nenhum pedido enviado ainda.</p>';
-        return;
-      }
-      let html = '';
-      pedidos.forEach((pedido, i) => {
-        const nome = pedido.nome ? pedido.nome : "Anônimo";
-        html += `<p><strong>${nome}:</strong> ${pedido.texto} <button class="removerPedido" onclick="removerPedido(${i})" aria-label="Remover pedido">X</button></p>`;
-      });
-      listaPedidos.innerHTML = html;
-    }
-
-    function removerPedido(i) {
-      pedidos.splice(i, 1);
-      salvarPedidos();
-      mostrarPedidos();
-    }
-
-    document.getElementById('pedidoOracaoForm').addEventListener('submit', (e) => {
+    formPedido.addEventListener("submit", (e) => {
       e.preventDefault();
-      const nome = document.getElementById('nomePedido').value.trim();
-      const texto = document.getElementById('textoPedido').value.trim();
-      if (!texto) {
-        alert('Por favor, escreva seu pedido de oração.');
-        return;
-      }
-      pedidos.push({ nome, texto });
-      salvarPedidos();
-      mostrarPedidos();
-      document.getElementById('pedidoOracaoForm').reset();
+      const nome = document.getElementById("nomePedido").value.trim();
+      const texto = document.getElementById("textoPedido").value.trim();
+      if (!texto) return alert("Por favor, escreva seu pedido de oração.");
+      const p = document.createElement("p");
+      p.textContent = (nome ? nome + ": " : "") + texto;
+      const btnRemover = document.createElement("button");
+      btnRemover.textContent = "X";
+      btnRemover.classList.add("removerPedido");
+      btnRemover.onclick = () => p.remove();
+      p.appendChild(btnRemover);
+      listaPedidos.appendChild(p);
+      formPedido.reset();
     });
-
-    mostrarPedidos();
 
     // Busca música no YouTube
     function buscarMusica() {
-      const pesquisa = document.getElementById('pesquisaMusica').value.trim();
-      if (!pesquisa) {
-        alert('Digite o nome da música para buscar.');
-        return;
-      }
-      const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(pesquisa)}`;
-      window.open(url, '_blank');
+      const pesquisa = document.getElementById("pesquisaMusica").value.trim();
+      if (!pesquisa) return alert("Digite o nome da música para buscar.");
+      const url = "https://www.youtube.com/results?search_query=" + encodeURIComponent(pesquisa);
+      window.open(url, "_blank");
     }
 
     // Escala de lanches
-    let escalaLanches = JSON.parse(localStorage.getItem('escalaLanches')) || [];
+    const formEscala = document.getElementById("formEscalaLanches");
+    const corpoTabela = document.getElementById("corpoTabelaEscala");
 
-    function salvarEscala() {
-      localStorage.setItem('escalaLanches', JSON.stringify(escalaLanches));
-    }
-
-    function mostrarEscala() {
-      const tbody = document.getElementById('tabelaLanchesCorpo');
-      if (escalaLanches.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">Nenhum responsável cadastrado.</td></tr>`;
-        return;
-      }
-      let html = '';
-      escalaLanches.forEach((item, i) => {
-        html += `<tr>
-          <td>${item.data}</td>
-          <td>${item.responsavel}</td>
-          <td>${item.descricao || '-'}</td>
-          <td><button class="removerLanche" onclick="removerLanche(${i})" aria-label="Remover lanche">X</button></td>
-        </tr>`;
-      });
-      tbody.innerHTML = html;
-    }
-
-    function removerLanche(i) {
-      escalaLanches.splice(i, 1);
-      salvarEscala();
-      mostrarEscala();
-    }
-
-    document.getElementById('formEscalaLanches').addEventListener('submit', (e) => {
+    formEscala.addEventListener("submit", (e) => {
       e.preventDefault();
-      const data = document.getElementById('inputDataLanche').value;
-      const responsavel = document.getElementById('inputResponsavelLanche').value.trim();
-      const descricao = document.getElementById('inputDescricaoLanche').value.trim();
+      const nome = document.getElementById("nomeLanche").value.trim();
+      const data = document.getElementById("dataLanche").value;
+      const desc = document.getElementById("descricaoLanche").value.trim();
 
-      if (!data || !responsavel) {
-        alert('Por favor, preencha a data e o nome do responsável.');
-        return;
-      }
-      escalaLanches.push({ data, responsavel, descricao });
-      salvarEscala();
-      mostrarEscala();
-      e.target.reset();
+      if (!nome || !data) return alert("Preencha nome e data.");
+
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+        <td>${nome}</td>
+        <td>${data}</td>
+        <td>${desc}</td>
+        <td><button class="removerLanche">Remover</button></td>
+      `;
+      tr.querySelector("button").onclick = () => tr.remove();
+
+      corpoTabela.appendChild(tr);
+      formEscala.reset();
     });
 
-    mostrarEscala();
+    // Eventos (antiga agenda) com proteção por senha para adicionar e remover
+    const senhaCorreta = "tia123"; // troque aqui para sua senha desejada
+    let eventos = JSON.parse(localStorage.getItem("eventosBaseAurora")) || [];
+
+    const dataEventoInput = document.getElementById("dataEvento");
+    const descricaoEventoInput = document.getElementById("descricaoEvento");
+    const btnAdicionarEvento = document.getElementById("btnAdicionarEvento");
+    const listaEventos = document.getElementById("listaEventos");
+
+    function salvarEventos() {
+      localStorage.setItem("eventosBaseAurora", JSON.stringify(eventos));
+    }
+
+    function renderizarEventos() {
+      listaEventos.innerHTML = "";
+      if (eventos.length === 0) {
+        listaEventos.innerHTML = "<p>Não há eventos cadastrados.</p>";
+        return;
+      }
+      eventos.forEach((ev, idx) => {
+        const div = document.createElement("div");
+        div.style.border = "1px solid var(--verde)";
+        div.style.padding = "8px 12px";
+        div.style.marginBottom = "8px";
+        div.style.borderRadius = "6px";
+        div.style.display = "flex";
+        div.style.justifyContent = "space-between";
+        div.style.alignItems = "center";
+
+        const info = document.createElement("span");
+        info.textContent = `${ev.data} - ${ev.descricao}`;
+
+        const btnExcluir = document.createElement("button");
+        btnExcluir.textContent = "Excluir";
+        btnExcluir.classList.add("button");
+        btnExcluir.style.backgroundColor = "crimson";
+        btnExcluir.style.padding = "4px 10px";
+        btnExcluir.style.fontSize = "0.9rem";
+        btnExcluir.style.borderRadius = "5px";
+
+        btnExcluir.addEventListener("click", () => {
+          const senha = prompt("Senha para excluir evento:");
+          if (senha !== senhaCorreta) {
+            alert("Senha incorreta! Ação cancelada.");
+            return;
+          }
+          eventos.splice(idx, 1);
+          salvarEventos();
+          renderizarEventos();
+        });
+
+        div.appendChild(info);
+        div.appendChild(btnExcluir);
+        listaEventos.appendChild(div);
+      });
+    }
+
+    btnAdicionarEvento.addEventListener("click", () => {
+      const data = dataEventoInput.value;
+      const descricao = descricaoEventoInput.value.trim();
+
+      if (!data) {
+        alert("Por favor, selecione uma data.");
+        return;
+      }
+      if (!descricao) {
+        alert("Por favor, escreva a descrição do evento.");
+        return;
+      }
+
+      const senha = prompt("Digite a senha para adicionar evento:");
+      if (senha !== senhaCorreta) {
+        alert("Senha incorreta! Evento não adicionado.");
+        return;
+      }
+
+      eventos.push({ data, descricao });
+      eventos.sort((a, b) => (a.data > b.data ? 1 : -1));
+      salvarEventos();
+      renderizarEventos();
+
+      dataEventoInput.value = "";
+      descricaoEventoInput.value = "";
+    });
+
+    // Inicializa a lista de eventos na tela
+    renderizarEventos();
   </script>
 </body>
 </html>
