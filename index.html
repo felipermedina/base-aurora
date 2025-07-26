@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Base Aurora | G148 Teen</title>
   <style>
+    /* --- Estilos básicos e variáveis --- */
     :root {
       --roxo: #6A1B9A;
       --verde: #26A69A;
@@ -317,19 +318,23 @@
         font-size: 1.1rem;
       }
     }
-    #escala-lanches table {
-      width: 100%;
+    /* Escala de lanches com duas tabelas */
+    #escala-lanches {
       max-width: 600px;
-      margin: 20px auto;
-      border-collapse: collapse;
+      margin: 0 auto;
       text-align: left;
     }
-    #escala-lanches th {
+    #escala-lanches .tabela-lanche {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    #escala-lanches .tabela-lanche th {
       background-color: var(--verde);
       color: white;
       padding: 8px;
     }
-    #escala-lanches td {
+    #escala-lanches .tabela-lanche td {
       padding: 10px;
       border-bottom: 1px solid #ccc;
     }
@@ -343,6 +348,13 @@
     }
     #escala-lanches button.removerLanche:hover {
       background: #a30000;
+    }
+    #escala-lanches input[type="text"] {
+      padding: 8px;
+      font-size: 1rem;
+      width: 70%;
+      max-width: 350px;
+      margin-right: 10px;
     }
   </style>
 </head>
@@ -360,6 +372,7 @@
       <a onclick="mostrarSecao('pedidos-oracao')">Pedidos de Oração</a>
       <a onclick="mostrarSecao('musicas')">Músicas</a>
       <a onclick="mostrarSecao('escala-lanches')">Escala de Lanches</a>
+      <a onclick="mostrarSecao('banda-aurora')">Banda Aurora</a>
     </nav>
   </header>
 
@@ -368,8 +381,7 @@
       <img src="img/logo-base-removebg-preview.png" class="logo" alt="Logo Base Aurora" />
       <img src="img/soul+-removebg-preview.png" class="logo" alt="Logo Base Soul+" />
     </div>
-  </main>
-  
+
     <section id="inicio" class="active">
       <div class="versiculo-do-dia" id="versiculoDoDia"></div>
       <h2>Bem-vindo à nossa Base!</h2>
@@ -380,10 +392,11 @@
 
     <section id="agenda">
       <h2>📆 Eventos</h2>
-      <p>Clique em uma data e adicione um evento:</p>
+      <p>Clique em uma data e adicione um evento (senha necessária):</p>
       <div style="margin-top: 20px;">
         <input type="date" id="dataEvento" />
         <input type="text" id="descricaoEvento" placeholder="Descrição do evento" />
+        <input type="password" id="senhaEvento" placeholder="Senha" style="margin-left: 10px; max-width: 120px;" />
         <button id="btnAdicionarEvento" class="button">Adicionar</button>
       </div>
       <div id="listaEventos" style="margin-top: 30px; text-align: left;"></div>
@@ -447,232 +460,365 @@
     </section>
 
     <section id="musicas">
-      <h2>🎵 Músicas para Louvor</h2>
-      <p>Pesquise uma música para tocarmos antes da lição:</p>
+      <h2>🎵 Buscar Música</h2>
       <input
         type="text"
         id="pesquisaMusica"
-        placeholder="Digite o nome da música..."
-        style="padding: 10px; width: 80%; max-width: 400px; border-radius: 5px;"
+        placeholder="Digite o nome da música"
+        maxlength="80"
+        style="width: 80%; max-width: 400px;"
       />
-      <button
-        onclick="buscarMusica()"
-        style="padding: 10px 15px; border: none; background-color: #4caf50; color: white; border-radius: 5px; cursor: pointer;"
-      >
+      <br />
+      <button onclick="buscarMusica()" class="button" style="margin-top: 10px;">
         Buscar no YouTube
+      </button>
+      <br />
+      <button
+        onclick="abrirPlaylist()"
+        class="button"
+        style="margin-top: 10px;"
+      >
+        Abrir Playlist Base Aurora no YouTube
       </button>
     </section>
 
     <section id="escala-lanches">
-      <h2>🥪 Escala de Lanches</h2>
-      <p>Cadastre os responsáveis pelos lanches:</p>
-      <form id="formEscalaLanches" style="max-width: 600px; margin: 0 auto; text-align: left;">
-        <label for="nomeLanche">Nome:</label>
-        <input type="text" id="nomeLanche" required />
-        <label for="dataLanche">Data:</label>
-        <input type="date" id="dataLanche" required />
-        <label for="descricaoLanche">Descrição do lanche:</label>
-        <textarea id="descricaoLanche" rows="3"></textarea>
-        <button type="submit" class="button" style="margin-top: 15px;">Adicionar à Escala</button>
-      </form>
-      <table id="tabelaEscala" style="margin-top: 20px;">
+      <h2>🍎 Escala de Lanches</h2>
+      <p>Adicione quem vai trazer lanches nas classes abaixo:</p>
+      <div style="margin-bottom: 15px;">
+        <input
+          type="text"
+          id="nomeLanche1"
+          placeholder="Nome e descrição do lanche"
+          maxlength="30"
+        />
+        <button id="btnAdicionarLanche1" class="button">Adicionar a Base Aurora</button>
+      </div>
+      <table id="tabelaLanches1" class="tabela-lanche">
         <thead>
           <tr>
-            <th>Nome</th>
-            <th>Data</th>
-            <th>Descrição</th>
+            <th>Base Aurora</th>
             <th>Ação</th>
           </tr>
         </thead>
-        <tbody id="corpoTabelaEscala"></tbody>
+        <tbody></tbody>
       </table>
+
+      <div style="margin-bottom: 15px;">
+        <input
+          type="text"
+          id="nomeLanche2"
+          placeholder="Nome e descrição do lanche"
+          maxlength="30"
+        />
+        <button id="btnAdicionarLanche2" class="button">Adicionar a Base Soul+</button>
+      </div>
+      <table id="tabelaLanches2" class="tabela-lanche">
+        <thead>
+          <tr>
+            <th>Base Soul+</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="banda-aurora">
+      <h2>Banda Aurora</h2>
+      <p>Link para o Drive dos kits de voz:</p>
+      <button id="btnAbrirDrive" class="button">Abrir link do Drive</button>
     </section>
   </main>
 
   <footer>
-    &copy; 2025 Base Aurora - Desenvolvido por Felipe.
+    &copy; 2025 Base Aurora - G148 Teen | Desenvolvido pelo Felipe
   </footer>
 
   <script>
-    // Mostrar seções com abas
+    // Navegação das seções
+    const menu = document.getElementById("menuNavegacao");
+    const secoes = document.querySelectorAll("main section");
     function mostrarSecao(id) {
-      document.querySelectorAll("section").forEach((sec) => sec.classList.remove("active"));
+      secoes.forEach((sec) => sec.classList.remove("active"));
       document.getElementById(id).classList.add("active");
       if (window.innerWidth < 700) {
-        document.getElementById("menuNavegacao").classList.remove("show");
+        menu.classList.remove("show");
       }
     }
 
-    // Botão hamburguer toggle menu mobile
-    document.getElementById("btnHamburguer").addEventListener("click", () => {
-      document.getElementById("menuNavegacao").classList.toggle("show");
+    // Menu hamburguer para mobile
+    const btnHamburguer = document.getElementById("btnHamburguer");
+    btnHamburguer.addEventListener("click", () => {
+      menu.classList.toggle("show");
     });
 
-    // Botão modo escuro
+    // Modo escuro
     const btnModoEscuro = document.getElementById("btnModoEscuro");
     btnModoEscuro.addEventListener("click", () => {
       document.body.classList.toggle("dark-mode");
-      if (document.body.classList.contains("dark-mode")) {
-        btnModoEscuro.textContent = "☀️";
-      } else {
-        btnModoEscuro.textContent = "🌙";
-      }
     });
 
-    // Versículo do dia (exemplo estático, pode substituir por API se quiser)
-    const versiculos = [
-      "Filipenses 4:13 - Posso todas as coisas naquele que me fortalece.",
-      "Salmos 23:1 - O Senhor é o meu pastor; nada me faltará.",
-      "Jeremias 29:11 - Porque eu sei os planos que tenho para vós.",
-    ];
-    const versiculoDoDiaEl = document.getElementById("versiculoDoDia");
-    function mostrarVersiculo() {
-      const index = new Date().getDate() % versiculos.length;
-      versiculoDoDiaEl.textContent = versiculos[index];
-    }
-    mostrarVersiculo();
+const versiculos = [
+  "Filipenses 2:13-15 - Pois Deus é quem efetua em vós tanto o querer como o realizar, segundo a sua boa vontade.",
+  "Filipenses 4:13 - Posso todas as coisas naquele que me fortalece.",
+  "Salmos 23:1 - O Senhor é o meu pastor; nada me faltará.",
+  "Jeremias 29:11 - Porque eu sei os planos que tenho para vós, diz o Senhor.",
+  "Romanos 8:28 - Todas as coisas cooperam para o bem daqueles que amam a Deus.",
+  "Isaías 40:31 - Os que esperam no Senhor renovarão suas forças.",
+  "Mateus 11:28 - Vinde a mim, todos os que estais cansados e oprimidos.",
+  "Provérbios 3:5-6 - Confia no Senhor de todo o teu coração.",
+  "Salmos 46:1 - Deus é nosso refúgio e fortaleza, socorro bem presente na angústia.",
+  "João 3:16 - Porque Deus amou o mundo de tal maneira que deu seu Filho.",
+  "Efésios 2:8 - Pois pela graça sois salvos, mediante a fé.",
+  "2 Timóteo 1:7 - Deus não nos deu espírito de covardia, mas de poder.",
+  "Hebreus 11:1 - A fé é a certeza das coisas que se esperam.",
+  "Salmos 119:105 - Lâmpada para os meus pés é tua palavra.",
+  "Tiago 1:5 - Se algum de vós tem falta de sabedoria, peça-a a Deus."
+];
 
-    // Pedidos de oração
-    const formPedido = document.getElementById("pedidoOracaoForm");
-    const listaPedidos = document.getElementById("listaPedidos");
+const versiculoDoDiaEl = document.getElementById("versiculoDoDia");
 
-    formPedido.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const nome = document.getElementById("nomePedido").value.trim();
-      const texto = document.getElementById("textoPedido").value.trim();
-      if (!texto) return alert("Por favor, escreva seu pedido de oração.");
-      const p = document.createElement("p");
-      p.textContent = (nome ? nome + ": " : "") + texto;
-      const btnRemover = document.createElement("button");
-      btnRemover.textContent = "X";
-      btnRemover.classList.add("removerPedido");
-      btnRemover.onclick = () => p.remove();
-      p.appendChild(btnRemover);
-      listaPedidos.appendChild(p);
-      formPedido.reset();
-    });
+function mostrarVersiculo() {
+  const index = new Date().getDate() % versiculos.length;
+  versiculoDoDiaEl.textContent = versiculos[index];
+}
 
-    // Busca música no YouTube
-    function buscarMusica() {
-      const pesquisa = document.getElementById("pesquisaMusica").value.trim();
-      if (!pesquisa) return alert("Digite o nome da música para buscar.");
-      const url = "https://www.youtube.com/results?search_query=" + encodeURIComponent(pesquisa);
-      window.open(url, "_blank");
-    }
+mostrarVersiculo();
 
-    // Escala de lanches
-    const formEscala = document.getElementById("formEscalaLanches");
-    const corpoTabela = document.getElementById("corpoTabelaEscala");
 
-    formEscala.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const nome = document.getElementById("nomeLanche").value.trim();
-      const data = document.getElementById("dataLanche").value;
-      const desc = document.getElementById("descricaoLanche").value.trim();
-
-      if (!nome || !data) return alert("Preencha nome e data.");
-
-      const tr = document.createElement("tr");
-
-      tr.innerHTML = `
-        <td>${nome}</td>
-        <td>${data}</td>
-        <td>${desc}</td>
-        <td><button class="removerLanche">Remover</button></td>
-      `;
-      tr.querySelector("button").onclick = () => tr.remove();
-
-      corpoTabela.appendChild(tr);
-      formEscala.reset();
-    });
-
-    // Eventos (antiga agenda) com proteção por senha para adicionar e remover
-    const senhaCorreta = "tia123"; // troque aqui para sua senha desejada
-    let eventos = JSON.parse(localStorage.getItem("eventosBaseAurora")) || [];
-
-    const dataEventoInput = document.getElementById("dataEvento");
-    const descricaoEventoInput = document.getElementById("descricaoEvento");
+    // Eventos
     const btnAdicionarEvento = document.getElementById("btnAdicionarEvento");
+    const dataEvento = document.getElementById("dataEvento");
+    const descricaoEvento = document.getElementById("descricaoEvento");
+    const senhaEvento = document.getElementById("senhaEvento");
     const listaEventos = document.getElementById("listaEventos");
+
+    let eventos = JSON.parse(localStorage.getItem("eventosBaseAurora")) || {};
 
     function salvarEventos() {
       localStorage.setItem("eventosBaseAurora", JSON.stringify(eventos));
     }
 
-    function renderizarEventos() {
+    function atualizarListaEventos() {
       listaEventos.innerHTML = "";
-      if (eventos.length === 0) {
-        listaEventos.innerHTML = "<p>Não há eventos cadastrados.</p>";
-        return;
-      }
-      eventos.forEach((ev, idx) => {
+      for (const data in eventos) {
         const div = document.createElement("div");
-        div.style.border = "1px solid var(--verde)";
-        div.style.padding = "8px 12px";
-        div.style.marginBottom = "8px";
-        div.style.borderRadius = "6px";
-        div.style.display = "flex";
-        div.style.justifyContent = "space-between";
-        div.style.alignItems = "center";
+        div.style.marginBottom = "10px";
+        const titulo = document.createElement("strong");
+        titulo.textContent = data + ": ";
+        div.appendChild(titulo);
 
-        const info = document.createElement("span");
-        info.textContent = `${ev.data} - ${ev.descricao}`;
+        const span = document.createElement("span");
+        span.textContent = eventos[data];
+        div.appendChild(span);
 
-        const btnExcluir = document.createElement("button");
-        btnExcluir.textContent = "Excluir";
-        btnExcluir.classList.add("button");
-        btnExcluir.style.backgroundColor = "crimson";
-        btnExcluir.style.padding = "4px 10px";
-        btnExcluir.style.fontSize = "0.9rem";
-        btnExcluir.style.borderRadius = "5px";
-
-        btnExcluir.addEventListener("click", () => {
-          const senha = prompt("Senha para excluir evento:");
-          if (senha !== senhaCorreta) {
-            alert("Senha incorreta! Ação cancelada.");
-            return;
-          }
-          eventos.splice(idx, 1);
+        const btnRemover = document.createElement("button");
+        btnRemover.textContent = "X";
+        btnRemover.style.marginLeft = "10px";
+        btnRemover.style.backgroundColor = "crimson";
+        btnRemover.style.color = "white";
+        btnRemover.style.border = "none";
+        btnRemover.style.borderRadius = "5px";
+        btnRemover.style.padding = "2px 6px";
+        btnRemover.style.cursor = "pointer";
+        btnRemover.title = "Remover evento";
+        btnRemover.addEventListener("click", () => {
+          delete eventos[data];
           salvarEventos();
-          renderizarEventos();
+          atualizarListaEventos();
         });
 
-        div.appendChild(info);
-        div.appendChild(btnExcluir);
+        div.appendChild(btnRemover);
         listaEventos.appendChild(div);
-      });
+      }
     }
+    atualizarListaEventos();
 
     btnAdicionarEvento.addEventListener("click", () => {
-      const data = dataEventoInput.value;
-      const descricao = descricaoEventoInput.value.trim();
-
-      if (!data) {
-        alert("Por favor, selecione uma data.");
+      const dataVal = dataEvento.value;
+      const descricaoVal = descricaoEvento.value.trim();
+      const senhaVal = senhaEvento.value.trim();
+      if (!dataVal || !descricaoVal) {
+        alert("Por favor, preencha data e descrição do evento.");
         return;
       }
-      if (!descricao) {
-        alert("Por favor, escreva a descrição do evento.");
+      if (senhaVal !== "1234") {
+        alert("Senha incorreta!");
         return;
       }
-
-      const senha = prompt("Digite a senha para adicionar evento:");
-      if (senha !== senhaCorreta) {
-        alert("Senha incorreta! Evento não adicionado.");
-        return;
-      }
-
-      eventos.push({ data, descricao });
-      eventos.sort((a, b) => (a.data > b.data ? 1 : -1));
+      eventos[dataVal] = descricaoVal;
       salvarEventos();
-      renderizarEventos();
-
-      dataEventoInput.value = "";
-      descricaoEventoInput.value = "";
+      atualizarListaEventos();
+      dataEvento.value = "";
+      descricaoEvento.value = "";
+      senhaEvento.value = "";
     });
 
-    // Inicializa a lista de eventos na tela
-    renderizarEventos();
+    // Pedidos de oração
+    const formPedidoOracao = document.getElementById("pedidoOracaoForm");
+    const listaPedidos = document.getElementById("listaPedidos");
+
+    let pedidos = JSON.parse(localStorage.getItem("pedidosOracaoBaseAurora")) || [];
+
+    function salvarPedidos() {
+      localStorage.setItem("pedidosOracaoBaseAurora", JSON.stringify(pedidos));
+    }
+
+    function atualizarListaPedidos() {
+      listaPedidos.innerHTML = "";
+      pedidos.forEach((pedido, index) => {
+        const p = document.createElement("p");
+        p.innerHTML =
+          (pedido.nome ? `<strong>${pedido.nome}:</strong> ` : "") +
+          `${pedido.texto}`;
+        const btnRemover = document.createElement("button");
+        btnRemover.classList.add("removerPedido");
+        btnRemover.textContent = "X";
+        btnRemover.title = "Remover pedido";
+        btnRemover.addEventListener("click", () => {
+          pedidos.splice(index, 1);
+          salvarPedidos();
+          atualizarListaPedidos();
+        });
+        p.appendChild(btnRemover);
+        listaPedidos.appendChild(p);
+      });
+    }
+    atualizarListaPedidos();
+
+    formPedidoOracao.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nome = document.getElementById("nomePedido").value.trim();
+      const texto = document.getElementById("textoPedido").value.trim();
+      if (!texto) {
+        alert("Por favor, escreva o pedido de oração.");
+        return;
+      }
+      pedidos.push({ nome, texto });
+      salvarPedidos();
+      atualizarListaPedidos();
+      formPedidoOracao.reset();
+    });
+
+    // Escala de lanches - Turma 1
+    const btnAdicionarLanche1 = document.getElementById("btnAdicionarLanche1");
+    const nomeLanche1 = document.getElementById("nomeLanche1");
+    const tabelaLanches1Body = document.querySelector("#tabelaLanches1 tbody");
+
+    let lanches1 = JSON.parse(localStorage.getItem("lanches1")) || [];
+
+    function salvarLanches1() {
+      localStorage.setItem("lanches1", JSON.stringify(lanches1));
+    }
+
+    function atualizarTabelaLanches1() {
+      tabelaLanches1Body.innerHTML = "";
+      lanches1.forEach((nome, index) => {
+        const tr = document.createElement("tr");
+        const tdNome = document.createElement("td");
+        tdNome.textContent = nome;
+        const tdAcao = document.createElement("td");
+        const btnRemover = document.createElement("button");
+        btnRemover.classList.add("removerLanche");
+        btnRemover.textContent = "X";
+        btnRemover.title = "Remover da escala";
+        btnRemover.addEventListener("click", () => {
+          lanches1.splice(index, 1);
+          salvarLanches1();
+          atualizarTabelaLanches1();
+        });
+        tdAcao.appendChild(btnRemover);
+        tr.appendChild(tdNome);
+        tr.appendChild(tdAcao);
+        tabelaLanches1Body.appendChild(tr);
+      });
+    }
+    atualizarTabelaLanches1();
+
+    btnAdicionarLanche1.addEventListener("click", () => {
+      const nome = nomeLanche1.value.trim();
+      if (!nome) {
+        alert("Por favor, insira um nome para a escala de lanches da Turma 1.");
+        return;
+      }
+      lanches1.push(nome);
+      salvarLanches1();
+      atualizarTabelaLanches1();
+      nomeLanche1.value = "";
+    });
+
+    // Escala de lanches - Turma 2
+    const btnAdicionarLanche2 = document.getElementById("btnAdicionarLanche2");
+    const nomeLanche2 = document.getElementById("nomeLanche2");
+    const tabelaLanches2Body = document.querySelector("#tabelaLanches2 tbody");
+
+    let lanches2 = JSON.parse(localStorage.getItem("lanches2")) || [];
+
+    function salvarLanches2() {
+      localStorage.setItem("lanches2", JSON.stringify(lanches2));
+    }
+
+    function atualizarTabelaLanches2() {
+      tabelaLanches2Body.innerHTML = "";
+      lanches2.forEach((nome, index) => {
+        const tr = document.createElement("tr");
+        const tdNome = document.createElement("td");
+        tdNome.textContent = nome;
+        const tdAcao = document.createElement("td");
+        const btnRemover = document.createElement("button");
+        btnRemover.classList.add("removerLanche");
+        btnRemover.textContent = "X";
+        btnRemover.title = "Remover da escala";
+        btnRemover.addEventListener("click", () => {
+          lanches2.splice(index, 1);
+          salvarLanches2();
+          atualizarTabelaLanches2();
+        });
+        tdAcao.appendChild(btnRemover);
+        tr.appendChild(tdNome);
+        tr.appendChild(tdAcao);
+        tabelaLanches2Body.appendChild(tr);
+      });
+    }
+    atualizarTabelaLanches2();
+
+    btnAdicionarLanche2.addEventListener("click", () => {
+      const nome = nomeLanche2.value.trim();
+      if (!nome) {
+        alert("Por favor, insira um nome para a escala de lanches da Turma 2.");
+        return;
+      }
+      lanches2.push(nome);
+      salvarLanches2();
+      atualizarTabelaLanches2();
+      nomeLanche2.value = "";
+    });
+
+    // Banda Aurora - botão do link para Drive
+    const btnAbrirDrive = document.getElementById("btnAbrirDrive");
+    btnAbrirDrive.addEventListener("click", () => {
+      // Link exemplo, troque depois pelo link real
+      const linkDrive = "https://drive.google.com/drive/folders/exemplo-link-do-drive";
+      window.open(linkDrive, "_blank");
+    });
+
+    // Músicas - busca no YouTube e abrir playlist
+    function buscarMusica() {
+      const pesquisa = document.getElementById("pesquisaMusica").value.trim();
+      if (!pesquisa) {
+        alert("Digite o nome da música para buscar.");
+        return;
+      }
+      const urlBusca = `https://www.youtube.com/results?search_query=${encodeURIComponent(pesquisa)}`;
+      window.open(urlBusca, "_blank");
+    }
+
+    function abrirPlaylist() {
+      // Link exemplo, troque depois pelo ID da sua playlist
+      const urlPlaylist = "https://youtube.com/playlist?list=PLEYTcF5xVCHRYRbqlJ4tKnpNbXZbhInhJ&si=1dfU3NO4fdwNypBF";
+      window.open(urlPlaylist, "_blank");
+    }
   </script>
 </body>
 </html>
