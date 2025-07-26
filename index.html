@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Base Aurora | G148 Teen</title>
   <style>
-    /* --- seu CSS original aqui --- */
     :root {
       --roxo: #6A1B9A;
       --verde: #26A69A;
@@ -315,6 +314,34 @@
         font-size: 1.1rem;
       }
     }
+    /* Escala de Lanches */
+    #escala-lanches table {
+      width: 100%;
+      max-width: 600px;
+      margin: 20px auto;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    #escala-lanches th {
+      background-color: var(--verde);
+      color: white;
+      padding: 8px;
+    }
+    #escala-lanches td {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+    #escala-lanches button.removerLanche {
+      background: crimson;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+    #escala-lanches button.removerLanche:hover {
+      background: #a30000;
+    }
   </style>
 </head>
 <body>
@@ -324,13 +351,13 @@
     <button id="btnModoEscuro" title="Alternar modo claro/escuro">🌙</button>
     <nav id="menuNavegacao">
       <a onclick="mostrarSecao('inicio')">Início</a>
-      <a onclick="mostrarSecao('agenda')">Eventos</a>
+      <a onclick="mostrarSecao('agenda')">Agenda</a>
       <a onclick="mostrarSecao('galeria')">Galeria</a>
       <a onclick="mostrarSecao('links')">Links</a>
       <a onclick="mostrarSecao('contato')">Contato</a>
       <a onclick="mostrarSecao('pedidos-oracao')">Pedidos de Oração</a>
       <a onclick="mostrarSecao('musicas')">Músicas</a>
-      <a onclick="mostrarSecao('escala-lanches')">Escala de Lanches</a> <!-- adicionado link -->
+      <a onclick="mostrarSecao('escala-lanches')">Escala de Lanches</a>
     </nav>
   </header>
 
@@ -338,9 +365,7 @@
     <img src="img/logo-base.jpg" class="logo" alt="Logo Base Aurora" />
 
     <section id="inicio" class="active">
-      <div class="versiculo-do-dia" id="versiculoDoDia">
-        <!-- Versículo aparecerá aqui -->
-      </div>
+      <div class="versiculo-do-dia" id="versiculoDoDia"></div>
       <h2>Bem-vindo à nossa Base!</h2>
       <p>
         Esse é o site oficial da Escola Sabatina Teen Base Aurora. Aqui você encontra lições, agenda de atividades, fotos e muito mais!
@@ -348,22 +373,19 @@
     </section>
 
     <section id="agenda">
-      <h2>📆 Eventos da Base</h2>
+      <h2>📆 Agenda</h2>
       <p>Clique em uma data e adicione um evento:</p>
-
       <div style="margin-top: 20px;">
         <input type="date" id="dataEvento" />
         <input type="text" id="descricaoEvento" placeholder="Descrição do evento" />
         <button id="btnAdicionarEvento" class="button">Adicionar</button>
       </div>
-
       <div id="listaEventos" style="margin-top: 30px; text-align: left;"></div>
     </section>
 
     <section id="galeria">
       <h2>Galeria</h2>
       <p>Confira abaixo algumas fotos das nossas atividades:</p>
-
       <div class="galeria-container">
         <a href="imagens/atividade1.jpg" target="_blank">
           <img src="img/Imagem do WhatsApp de 2025-07-23 à(s) 15.22.12_7852bc2e.jpg" alt="Atividade 1" />
@@ -391,45 +413,16 @@
     <section id="contato">
       <h2>📞 Contato da Base Aurora</h2>
       <p>Fale com a liderança ou acompanhe nossas redes sociais:</p>
-
-      <div
-        style="display: flex; flex-direction: column; gap: 20px; align-items: center; margin-top: 30px;"
-      >
-        <a
-          href="https://www.instagram.com/base.aurora_g148t"
-          target="_blank"
-          style="
-            background-color: #e1306c;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-          "
-          >📸 Instagram Oficial da Base</a
-        >
-
-        <a
-         <a href="https://wa.me/5543920002787" target="_blank">Chamar Tia Marina no WhatsApp</a>
-          target="_blank"
-          style="
-            background-color: #25d366;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-          "
-          >💬 Contato da Coordenação dos Adolescentes</a
-        >
+      <div style="display: flex; flex-direction: column; gap: 20px; align-items: center; margin-top: 30px;">
+        <a href="https://www.instagram.com/base.aurora_g148t" target="_blank" style="background-color: #e1306c; color: white; padding: 12px 24px; border-radius: 10px; font-size: 1.1rem; text-decoration: none; font-weight: bold; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);">
+          📸 Instagram Oficial da Base
+        </a>
+        <a href="https://wa.me/5543920002787" target="_blank" style="background-color: var(--verde); color: white; padding: 12px 24px; border-radius: 10px; font-size: 1.1rem; text-decoration: none; font-weight: bold; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);">
+          💬 Chamar Tia Marina no WhatsApp
+        </a>
       </div>
-
       <p style="margin-top: 30px; color: #666;">
-        📍 Igreja Adventista do Sétimo Dia - Rua Natal, 42- Jardim Agari<br />
+        📍 Igreja Adventista do Sétimo Dia - Rua Natal, 42 - Jardim Agari<br />
         ⏰ Sábados às 9h – Escola Sabatina Adolescentes
       </p>
     </section>
@@ -437,26 +430,14 @@
     <section id="pedidos-oracao">
       <h2>🙏 Pedidos de Oração</h2>
       <p>Envie seu pedido e vamos orar juntos durante a semana!</p>
-
       <form id="pedidoOracaoForm">
         <label for="nomePedido">Seu nome (opcional):</label>
         <input type="text" id="nomePedido" placeholder="Ex: João" maxlength="30" />
-
         <label for="textoPedido">Pedido de oração:</label>
-        <textarea
-          id="textoPedido"
-          rows="5"
-          placeholder="Escreva aqui seu pedido..."
-          required
-          maxlength="500"
-        ></textarea>
-
+        <textarea id="textoPedido" rows="5" placeholder="Escreva aqui seu pedido..." required maxlength="500"></textarea>
         <button type="submit" class="button" style="margin-top: 15px;">Enviar Pedido</button>
       </form>
-
-      <div id="listaPedidos">
-        <!-- Lista de pedidos aparecerá aqui -->
-      </div>
+      <div id="listaPedidos"></div>
     </section>
 
     <section id="musicas">
@@ -479,254 +460,238 @@
     <section id="escala-lanches">
       <h2>🥪 Escala de Lanches</h2>
       <p>Cadastre os responsáveis pelos lanches:</p>
-
       <form id="formEscalaLanches" style="max-width: 600px; margin: 0 auto; text-align: left;">
         <label for="inputDataLanche">Data:</label>
         <input type="date" id="inputDataLanche" required />
-
-        <label for="inputNomeResponsavel">Nome do responsável:</label>
-        <input type="text" id="inputNomeResponsavel" maxlength="50" required />
-
-        <label for="inputDescricaoLanche">Descrição (opcional):</label>
-        <input type="text" id="inputDescricaoLanche" maxlength="100" />
-
-        <button type="submit" class="button" style="margin-top: 15px;">Adicionar à Escala</button>
+        <label for="inputResponsavelLanche">Responsável:</label>
+        <input type="text" id="inputResponsavelLanche" placeholder="Nome do responsável" required maxlength="50" />
+        <label for="inputDescricaoLanche">Descrição do lanche (opcional):</label>
+        <input type="text" id="inputDescricaoLanche" placeholder="Ex: Bolo de chocolate" maxlength="100" />
+        <button type="submit" class="button" style="margin-top: 10px;">Adicionar</button>
       </form>
-
-      <table style="width: 100%; max-width: 600px; margin: 20px auto; border-collapse: collapse; text-align: left;">
+      <table>
         <thead>
-          <tr style="background-color: var(--verde); color: white;">
-            <th style="padding: 8px;">Data</th>
-            <th style="padding: 8px;">Responsável</th>
-            <th style="padding: 8px;">Descrição</th>
-            <th style="padding: 8px; text-align:center;">Ação</th>
+          <tr>
+            <th>Data</th>
+            <th>Responsável</th>
+            <th>Descrição</th>
+            <th>Remover</th>
           </tr>
         </thead>
-        <tbody>
-          <!-- Escala carregada aqui -->
-        </tbody>
+        <tbody id="tabelaLanchesCorpo"></tbody>
       </table>
     </section>
   </main>
 
   <footer>
-    &copy; 2025 Base Aurora | Desenvolvido por Felipe Medina
+    &copy; 2025 Base Aurora - G148 Teen | Todos os direitos reservados
   </footer>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import {
-      getDatabase,
-      ref,
-      push,
-      set,
-      get,
-      remove,
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBcQQsDfdUFoYrB97uQcfhDX1M9aDyFuEc",
-      authDomain: "base-aurora.firebaseapp.com",
-      databaseURL: "https://base-aurora-default-rtdb.firebaseio.com",
-      projectId: "base-aurora",
-      storageBucket: "base-aurora.firebasestorage.app",
-      messagingSenderId: "395083270436",
-      appId: "1:395083270436:web:4f4965c2045366df558bb1",
-      measurementId: "G-PJHTVWVZWQ"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-
-    // Controle menu hamburguer
-    const btnHamburguer = document.getElementById("btnHamburguer");
-    const navMenu = document.getElementById("menuNavegacao");
-    btnHamburguer.addEventListener("click", () => {
-      navMenu.classList.toggle("show");
-    });
-
+  <script>
     // Modo escuro
-    const btnModoEscuro = document.getElementById("btnModoEscuro");
-    btnModoEscuro.addEventListener("click", () => {
-      document.body.classList.toggle("dark-mode");
-      localStorage.setItem("modoEscuroBaseAurora", document.body.classList.contains("dark-mode"));
+    const btnModoEscuro = document.getElementById('btnModoEscuro');
+    btnModoEscuro.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      salvarModo();
     });
 
-    // Navegação entre seções
+    function salvarModo() {
+      const modo = document.body.classList.contains('dark-mode');
+      localStorage.setItem('modoEscuro', modo);
+    }
+
+    function carregarModo() {
+      const modo = localStorage.getItem('modoEscuro') === 'true';
+      if (modo) {
+        document.body.classList.add('dark-mode');
+      }
+    }
+    carregarModo();
+
+    // Menu hamburguer
+    const btnHamburguer = document.getElementById('btnHamburguer');
+    const menuNavegacao = document.getElementById('menuNavegacao');
+
+    btnHamburguer.addEventListener('click', () => {
+      menuNavegacao.classList.toggle('show');
+    });
+
+    // Função para mostrar seção
     function mostrarSecao(id) {
-      document.querySelectorAll("main section").forEach(sec => {
-        sec.classList.toggle("active", sec.id === id);
+      const secoes = document.querySelectorAll('main section');
+      secoes.forEach(sec => {
+        if (sec.id === id) {
+          sec.classList.add('active');
+        } else {
+          sec.classList.remove('active');
+        }
       });
-      if(navMenu.classList.contains("show")) navMenu.classList.remove("show");
-    }
-    window.mostrarSecao = mostrarSecao;
-
-    // Versículo do dia
-    function carregarVersiculoDoDia() {
-      const versiculos = [
-        "Filipenses 4:13 — Posso todas as coisas naquele que me fortalece.",
-        "Salmos 23:1 — O Senhor é o meu pastor; nada me faltará.",
-        "Isaías 41:10 — Não temas, porque eu sou contigo...",
-        "Mateus 11:28 — Vinde a mim...",
-        "Romanos 8:28 — Todas as coisas cooperam..."
-      ];
-      const index = new Date().getDate() % versiculos.length;
-      document.getElementById("versiculoDoDia").textContent = versiculos[index];
+      // Fechar menu no mobile após clique
+      menuNavegacao.classList.remove('show');
     }
 
-    // ==================== EVENTOS ====================
-    async function carregarEventos() {
-      const lista = document.getElementById("listaEventos");
-      lista.innerHTML = "";
+    // Versículos do dia (rotativo, muda todo dia)
+    const versiculos = [
+      "Filipenses 4:13 - Posso todas as coisas naquele que me fortalece.",
+      "Salmos 23:1 - O Senhor é o meu pastor; nada me faltará.",
+      "Jeremias 29:11 - Porque eu bem sei os pensamentos que penso de vós, diz o Senhor.",
+      "Romanos 8:28 - Sabemos que todas as coisas cooperam para o bem daqueles que amam a Deus.",
+      "Isaías 41:10 - Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus.",
+      "Provérbios 3:5-6 - Confia no Senhor de todo o teu coração e não te estribes no teu próprio entendimento."
+    ];
 
-      const snapshot = await get(ref(db, "eventos"));
-      if (!snapshot.exists()) {
-        lista.textContent = "Nenhum evento cadastrado.";
+    function mostrarVersiculoDoDia() {
+      const hoje = new Date();
+      const indice = hoje.getDate() % versiculos.length;
+      document.getElementById('versiculoDoDia').textContent = versiculos[indice];
+    }
+    mostrarVersiculoDoDia();
+
+    // Agenda - eventos
+    let eventos = JSON.parse(localStorage.getItem('eventos')) || [];
+
+    function salvarEventos() {
+      localStorage.setItem('eventos', JSON.stringify(eventos));
+    }
+
+    function mostrarEventos() {
+      const listaEventos = document.getElementById('listaEventos');
+      if (eventos.length === 0) {
+        listaEventos.innerHTML = '<p>Nenhum evento cadastrado.</p>';
         return;
       }
-
-      const eventos = Object.entries(snapshot.val()).map(([id, data]) => ({ id, ...data }));
-      eventos.sort((a, b) => new Date(a.data) - new Date(b.data));
-
-      eventos.forEach(evento => {
-        const div = document.createElement("div");
-        div.style.cssText = "background-color: var(--verde); color: white; margin: 10px 0; padding: 10px; border-radius: 8px; position: relative;";
-        div.textContent = `${new Date(evento.data).toLocaleDateString("pt-BR")} — ${evento.descricao}`;
-
-        const btnRemover = document.createElement("button");
-        btnRemover.textContent = "X";
-        btnRemover.title = "Remover evento";
-        btnRemover.style.cssText = "position: absolute; right: 10px; top: 10px; background: crimson; color: white; border: none; border-radius: 5px; cursor: pointer; width: 24px; height: 24px; font-weight: bold;";
-        btnRemover.onclick = () => remove(ref(db, "eventos/" + evento.id)).then(carregarEventos);
-
-        div.appendChild(btnRemover);
-        lista.appendChild(div);
+      let html = '<ul>';
+      eventos.forEach((evento, i) => {
+        html += `<li><strong>${evento.data}</strong>: ${evento.descricao} <button onclick="removerEvento(${i})" class="button" style="background-color: crimson;">X</button></li>`;
       });
+      html += '</ul>';
+      listaEventos.innerHTML = html;
     }
 
-    document.getElementById("btnAdicionarEvento").onclick = async () => {
-      const data = document.getElementById("dataEvento").value;
-      const descricao = document.getElementById("descricaoEvento").value.trim();
-      if (!data || !descricao) return alert("Preencha os campos");
+    function removerEvento(indice) {
+      eventos.splice(indice, 1);
+      salvarEventos();
+      mostrarEventos();
+    }
 
-      const novaRef = push(ref(db, "eventos"));
-      await set(novaRef, { data, descricao });
-      document.getElementById("dataEvento").value = "";
-      document.getElementById("descricaoEvento").value = "";
-      alert("Evento adicionado!");
-      carregarEventos();
-    };
-
-    // ==================== PEDIDOS DE ORAÇÃO ====================
-    async function carregarPedidosOracao() {
-      const lista = document.getElementById("listaPedidos");
-      lista.innerHTML = "";
-
-      const snapshot = await get(ref(db, "pedidos"));
-      if (!snapshot.exists()) {
-        lista.textContent = "Nenhum pedido de oração enviado ainda.";
+    document.getElementById('btnAdicionarEvento').addEventListener('click', () => {
+      const dataEvento = document.getElementById('dataEvento').value;
+      const descricaoEvento = document.getElementById('descricaoEvento').value.trim();
+      if (!dataEvento || !descricaoEvento) {
+        alert('Por favor, preencha data e descrição do evento.');
         return;
       }
+      eventos.push({ data: dataEvento, descricao: descricaoEvento });
+      salvarEventos();
+      mostrarEventos();
+      document.getElementById('dataEvento').value = '';
+      document.getElementById('descricaoEvento').value = '';
+    });
 
-      const pedidos = Object.entries(snapshot.val()).map(([id, data]) => ({ id, ...data }));
+    mostrarEventos();
 
-      pedidos.forEach(pedido => {
-        const p = document.createElement("p");
-        p.style.position = "relative";
-        p.textContent = pedido.nome ? `${pedido.nome}: ${pedido.texto}` : pedido.texto;
+    // Pedidos de oração
+    let pedidos = JSON.parse(localStorage.getItem('pedidosOracao')) || [];
 
-        const btn = document.createElement("button");
-        btn.textContent = "X";
-        btn.className = "removerPedido";
-        btn.title = "Remover pedido";
-        btn.onclick = () => remove(ref(db, "pedidos/" + pedido.id)).then(carregarPedidosOracao);
-
-        p.appendChild(btn);
-        lista.appendChild(p);
-      });
+    function salvarPedidos() {
+      localStorage.setItem('pedidosOracao', JSON.stringify(pedidos));
     }
 
-    document.getElementById("pedidoOracaoForm").addEventListener("submit", async e => {
+    function mostrarPedidos() {
+      const listaPedidos = document.getElementById('listaPedidos');
+      if (pedidos.length === 0) {
+        listaPedidos.innerHTML = '<p>Nenhum pedido enviado ainda.</p>';
+        return;
+      }
+      let html = '';
+      pedidos.forEach((pedido, i) => {
+        const nome = pedido.nome ? pedido.nome : "Anônimo";
+        html += `<p><strong>${nome}:</strong> ${pedido.texto} <button class="removerPedido" onclick="removerPedido(${i})" aria-label="Remover pedido">X</button></p>`;
+      });
+      listaPedidos.innerHTML = html;
+    }
+
+    function removerPedido(i) {
+      pedidos.splice(i, 1);
+      salvarPedidos();
+      mostrarPedidos();
+    }
+
+    document.getElementById('pedidoOracaoForm').addEventListener('submit', (e) => {
       e.preventDefault();
-      const nome = document.getElementById("nomePedido").value.trim();
-      const texto = document.getElementById("textoPedido").value.trim();
-      if (!texto) return alert("Escreva seu pedido.");
-
-      const novaRef = push(ref(db, "pedidos"));
-      await set(novaRef, { nome, texto });
-      document.getElementById("pedidoOracaoForm").reset();
-      alert("Pedido enviado!");
-      carregarPedidosOracao();
-    });
-
-    // ==================== ESCALA DE LANCHES ====================
-    async function carregarEscalaLanches() {
-      const tbody = document.querySelector("#escala-lanches tbody");
-      tbody.innerHTML = "";
-
-      const snapshot = await get(ref(db, "lanches"));
-      if (!snapshot.exists()) {
-        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 20px; color: #666;">Nenhum responsável cadastrado.</td></tr>`;
+      const nome = document.getElementById('nomePedido').value.trim();
+      const texto = document.getElementById('textoPedido').value.trim();
+      if (!texto) {
+        alert('Por favor, escreva seu pedido de oração.');
         return;
       }
-
-      const escala = Object.entries(snapshot.val()).map(([id, data]) => ({ id, ...data }));
-      escala.sort((a, b) => new Date(a.data) - new Date(b.data));
-
-      escala.forEach(item => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td style="padding: 10px;">${new Date(item.data).toLocaleDateString("pt-BR")}</td>
-          <td style="padding: 10px;">${item.nome}</td>
-          <td style="padding: 10px;">${item.descricao || ""}</td>
-          <td style="padding: 10px; text-align: center;">
-            <button style="background: crimson; color: white; border: none; border-radius: 5px; padding: 4px 8px; cursor: pointer;" title="Remover" onclick="removerLanche('${item.id}')">X</button>
-          </td>`;
-        tbody.appendChild(tr);
-      });
-    }
-
-    window.removerLanche = async id => {
-      await remove(ref(db, "lanches/" + id));
-      carregarEscalaLanches();
-    };
-
-    document.getElementById("formEscalaLanches").addEventListener("submit", async e => {
-      e.preventDefault();
-      const data = document.getElementById("inputDataLanche").value;
-      const nome = document.getElementById("inputNomeResponsavel").value.trim();
-      const descricao = document.getElementById("inputDescricaoLanche").value.trim();
-      if (!data || !nome) return alert("Preencha os campos obrigatórios.");
-
-      const novaRef = push(ref(db, "lanches"));
-      await set(novaRef, { data, nome, descricao });
-      e.target.reset();
-      alert("Escala salva!");
-      carregarEscalaLanches();
+      pedidos.push({ nome, texto });
+      salvarPedidos();
+      mostrarPedidos();
+      document.getElementById('pedidoOracaoForm').reset();
     });
 
-    // ==================== INÍCIO ====================
-    window.addEventListener("load", () => {
-      if (localStorage.getItem("modoEscuroBaseAurora") === "true") {
-        document.body.classList.add("dark-mode");
-      }
-      carregarEventos();
-      carregarPedidosOracao();
-      carregarEscalaLanches();
-      carregarVersiculoDoDia();
-    });
+    mostrarPedidos();
 
-    // ==================== BUSCAR MÚSICA ====================
+    // Busca música no YouTube
     function buscarMusica() {
-      const pesquisa = document.getElementById("pesquisaMusica").value.trim();
+      const pesquisa = document.getElementById('pesquisaMusica').value.trim();
       if (!pesquisa) {
-        alert("Digite o nome da música para buscar.");
+        alert('Digite o nome da música para buscar.');
         return;
       }
       const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(pesquisa)}`;
-      window.open(url, "_blank");
+      window.open(url, '_blank');
     }
-    window.buscarMusica = buscarMusica;
+
+    // Escala de lanches
+    let escalaLanches = JSON.parse(localStorage.getItem('escalaLanches')) || [];
+
+    function salvarEscala() {
+      localStorage.setItem('escalaLanches', JSON.stringify(escalaLanches));
+    }
+
+    function mostrarEscala() {
+      const tbody = document.getElementById('tabelaLanchesCorpo');
+      if (escalaLanches.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">Nenhum responsável cadastrado.</td></tr>`;
+        return;
+      }
+      let html = '';
+      escalaLanches.forEach((item, i) => {
+        html += `<tr>
+          <td>${item.data}</td>
+          <td>${item.responsavel}</td>
+          <td>${item.descricao || '-'}</td>
+          <td><button class="removerLanche" onclick="removerLanche(${i})" aria-label="Remover lanche">X</button></td>
+        </tr>`;
+      });
+      tbody.innerHTML = html;
+    }
+
+    function removerLanche(i) {
+      escalaLanches.splice(i, 1);
+      salvarEscala();
+      mostrarEscala();
+    }
+
+    document.getElementById('formEscalaLanches').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = document.getElementById('inputDataLanche').value;
+      const responsavel = document.getElementById('inputResponsavelLanche').value.trim();
+      const descricao = document.getElementById('inputDescricaoLanche').value.trim();
+
+      if (!data || !responsavel) {
+        alert('Por favor, preencha a data e o nome do responsável.');
+        return;
+      }
+      escalaLanches.push({ data, responsavel, descricao });
+      salvarEscala();
+      mostrarEscala();
+      e.target.reset();
+    });
+
+    mostrarEscala();
   </script>
 </body>
 </html>
