@@ -134,8 +134,15 @@
     }
     .logo {
       width: 200px;
+      height: auto;
+    }
+    .logos-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
       margin: 15px auto;
-      display: block;
     }
     section {
       display: none;
@@ -183,7 +190,6 @@
     body.dark-mode .button:hover {
       background-color: #145e5b;
     }
-    /* Galeria */
     .galeria-container {
       display: flex;
       flex-wrap: wrap;
@@ -201,7 +207,6 @@
     .galeria-container a img:hover {
       transform: scale(1.05);
     }
-    /* Caixa de Versículo do Dia */
     .versiculo-do-dia {
       background: var(--amarelo);
       color: #333;
@@ -218,7 +223,6 @@
       color: #eee;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
     }
-    /* Pedidos de oração */
     #pedidoOracaoForm {
       max-width: 600px;
       margin: 0 auto;
@@ -287,7 +291,6 @@
     #listaPedidos button.removerPedido:hover {
       background: #a30000;
     }
-    /* Menu Hambúrguer - Mobile */
     nav {
       display: flex;
       gap: 20px;
@@ -314,7 +317,6 @@
         font-size: 1.1rem;
       }
     }
-    /* Escala de Lanches */
     #escala-lanches table {
       width: 100%;
       max-width: 600px;
@@ -362,8 +364,12 @@
   </header>
 
   <main>
-    <img src="img/logo-base.jpg" class="logo" alt="Logo Base Aurora" />
-
+    <div class="logos-container">
+      <img src="img/logo-base.jpg" class="logo" alt="Logo Base Aurora" />
+      <img src="img/soul+.jpg" class="logo" alt="Logo Base Soul+" />
+    </div>
+  </main>
+  
     <section id="inicio" class="active">
       <div class="versiculo-do-dia" id="versiculoDoDia"></div>
       <h2>Bem-vindo à nossa Base!</h2>
