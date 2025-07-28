@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz Bíblico - Base Aurora</title>
+  <style>
+    :root {
+      --verde: #26A69A;
+      --verde-escuro: #1B7A74;
+      --roxo: #6A1B9A;
+      --roxo-escuro: #4B116F;
+      --fundo: #1e1e1e;
+      --texto: #f5f5f5;
+      --fundo-card: #2c2c2c;
+    }
+    body {
+      background-color: var(--fundo);
+      color: var(--texto);
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+      max-width: 700px;
+      margin: auto;
+    }
+    h1 {
+      color: var(--roxo);
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .pergunta {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      background-color: var(--fundo-card);
+      padding: 15px;
+      border-radius: 10px;
+    }
+    .opcao {
+      display: block;
+      padding: 10px;
+      margin: 8px 0;
+      background-color: var(--verde);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    .opcao:hover {
+      background-color: var(--verde-escuro);
+    }
+    #resultado {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    #pontuacao {
+      margin-top: 10px;
+      color: var(--roxo);
+    }
+    button#reiniciar {
+      margin-top: 20px;
+      background-color: var(--roxo);
+    }
+    button#reiniciar:hover {
+      background-color: var(--roxo-escuro);
+    }
+    #temporizador {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #ffc107;
+      margin-bottom: 10px;
+    }
+    #ranking {
+      margin-top: 30px;
+      padding: 15px;
+      background: var(--fundo-card);
+      border-radius: 10px;
+    }
+    #ranking h3 {
+      margin-bottom: 10px;
+      color: var(--roxo);
+    }
+    #btnResetRanking {
+      margin-top: 15px;
+      background-color: crimson;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    #btnResetRanking:hover {
+      background-color: #a30000;
+    }
+    #tela-inicial {
+      text-align: center;
+      margin-top: 100px;
+    }
+    #inputNome {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      width: 80%;
+      max-width: 300px;
+      margin-bottom: 15px;
+      outline: none;
+    }
+    #btnComecar {
+      padding: 10px 25px;
+      font-size: 1.1rem;
+      background-color: var(--roxo);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    #btnComecar:hover {
+      background-color: var(--roxo-escuro);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📖 Quiz Bíblico</h1>
+
+  <div id="tela-inicial">
+    <input type="text" id="inputNome" placeholder="Digite seu nome para começar" maxlength="30" />
+    <br/>
+    <button id="btnComecar">Começar</button>
+  </div>
+
+  <div id="quizContainer" style="display:none;">
+    <div id="temporizador"></div>
+    <div id="pergunta" class="pergunta"></div>
+    <div id="opcoes"></div>
+  </div>
+
+  <div id="resultado"></div>
+
+  <div id="ranking"></div>
+  <button id="btnResetRanking">Resetar Ranking</button>
+
+  <script>
+    const perguntas = [
+      { texto: "Quem construiu a arca para sobreviver ao dilúvio?", opcoes: ["Abraão", "Moisés", "Noé", "Davi"], correta: 2 },
+      { texto: "Quantos livros tem a Bíblia?", opcoes: ["66", "73", "70", "80"], correta: 0 },
+      { texto: "Qual era o nome do gigante vencido por Davi?", opcoes: ["Golias", "Senaqueribe", "Nabucodonosor", "Herodes"], correta: 0 },
+      { texto: "Quem foi jogado na cova dos leões?", opcoes: ["Daniel", "José", "Elias", "Pedro"], correta: 0 },
+      { texto: "Qual dos evangelhos é o menor?", opcoes: ["Mateus", "Lucas", "Marcos", "João"], correta: 2 },
+      { texto: "Quem liderou o povo de Israel na saída do Egito?", opcoes: ["Josué", "Moisés", "Arão", "Calebe"], correta: 1 },
+      { texto: "Qual discípulo andou sobre as águas?", opcoes: ["João", "Pedro", "Tiago", "Tomé"], correta: 1 }
+    ];
+
+    let perguntaAtual = 0;
+    let pontuacao = 0;
+    let tempo = 30;
+    let timer;
+    const rankingStorageKey = "rankingQuizBiblico";
+    let nomeUsuario = "";
+
+    const telaInicial = document.getElementById("tela-inicial");
+    const inputNome = document.getElementById("inputNome");
+    const btnComecar = document.getElementById("btnComecar");
+    const quizContainer = document.getElementById("quizContainer");
+    const perguntaEl = document.getElementById("pergunta");
+    const opcoesEl = document.getElementById("opcoes");
+    const resultadoEl = document.getElementById("resultado");
+    const temporizadorEl = document.getElementById("temporizador");
+    const rankingEl = document.getElementById("ranking");
+    const btnResetRanking = document.getElementById("btnResetRanking");
+
+    btnComecar.addEventListener("click", () => {
+      const nome = inputNome.value.trim();
+      if (nome.length === 0) {
+        alert("Por favor, digite seu nome para começar!");
+        return;
+      }
+      nomeUsuario = nome;
+      telaInicial.style.display = "none";
+      resultadoEl.innerHTML = "";
+      mostrarRanking();
+      quizContainer.style.display = "block";
+      mostrarPergunta();
+    });
+
+    btnResetRanking.addEventListener("click", () => {
+      if (confirm("Tem certeza que quer apagar o ranking?")) {
+        localStorage.removeItem(rankingStorageKey);
+        mostrarRanking();
+        alert("Ranking apagado!");
+      }
+    });
+
+    function mostrarPergunta() {
+      const q = perguntas[perguntaAtual];
+      perguntaEl.textContent = q.texto;
+      opcoesEl.innerHTML = "";
+      tempo = 30;
+      atualizarTemporizador();
+      clearInterval(timer);
+      timer = setInterval(() => {
+        tempo--;
+        atualizarTemporizador();
+        if (tempo === 0) {
+          clearInterval(timer);
+          verificarResposta(-1); // Nenhuma resposta selecionada no tempo
+        }
+      }, 1000);
+
+      q.opcoes.forEach((opcao, index) => {
+        const btn = document.createElement("button");
+        btn.textContent = opcao;
+        btn.className = "opcao";
+        btn.onclick = () => verificarResposta(index);
+        opcoesEl.appendChild(btn);
+      });
+    }
+
+    function atualizarTemporizador() {
+      temporizadorEl.textContent = `⏳ Tempo restante: ${tempo}s`;
+    }
+
+    function verificarResposta(selecionada) {
+      clearInterval(timer);
+      const correta = perguntas[perguntaAtual].correta;
+      if (selecionada === correta) pontuacao++;
+      perguntaAtual++;
+      if (perguntaAtual < perguntas.length) {
+        mostrarPergunta();
+      } else {
+        mostrarResultado();
+      }
+    }
+
+    function mostrarResultado() {
+      perguntaEl.textContent = "";
+      opcoesEl.innerHTML = "";
+      temporizadorEl.textContent = "";
+      resultadoEl.innerHTML = `✅ Você acertou <strong>${pontuacao}</strong> de ${perguntas.length} perguntas!`;
+      resultadoEl.innerHTML += `
+        <div id="pontuacao">
+          ${pontuacao === perguntas.length ? "Parabéns, nota máxima! 🏆" : pontuacao >= 4 ? "Muito bem!" : "Vamos estudar mais! 🙏"}
+        </div>
+        <button id="reiniciar" class="opcao" onclick="reiniciarQuiz()">Tentar novamente</button>
+      `;
+      salvarNoRanking(pontuacao);
+      mostrarRanking();
+    }
+
+    function reiniciarQuiz() {
+      perguntaAtual = 0;
+      pontuacao = 0;
+      resultadoEl.innerHTML = "";
+      mostrarPergunta();
+    }
+
+    function salvarNoRanking(pontos) {
+      const ranking = JSON.parse(localStorage.getItem(rankingStorageKey)) || [];
+      // Verifica se o jogador já está no ranking
+      const jogadorIndex = ranking.findIndex(j => j.nome.toLowerCase() === nomeUsuario.toLowerCase());
+      if (jogadorIndex !== -1) {
+        // Se pontuação atual é maior que a antiga, atualiza
+        if (pontos > ranking[jogadorIndex].pontos) {
+          ranking[jogadorIndex].pontos = pontos;
+        }
+      } else {
+        // Novo jogador, adiciona no ranking
+        ranking.push({ nome: nomeUsuario, pontos });
+      }
+      // Ordena do maior para menor pontuação
+      ranking.sort((a, b) => b.pontos - a.pontos);
+      // Salva somente os 5 melhores
+      localStorage.setItem(rankingStorageKey, JSON.stringify(ranking.slice(0, 5)));
+    }
+
+    function mostrarRanking() {
+      const ranking = JSON.parse(localStorage.getItem(rankingStorageKey)) || [];
+      if (ranking.length > 0) {
+        rankingEl.innerHTML = '<h3>🏅 Top 5 Pontuações</h3><ol>' +
+          ranking.map(p => `<li><strong>${p.nome}</strong>: ${p.pontos} pts</li>`).join('') + '</ol>';
+      } else {
+        rankingEl.innerHTML = '';
+      }
+    }
+  </script>
+</body>
+</html>

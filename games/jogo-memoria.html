@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jogo da Memória Bíblico | Base Aurora</title>
+  <style>
+    :root {
+      --roxo: #6A1B9A;
+      --verde: #26A69A;
+      --amarelo: #FFC107;
+      --fundo: #FFFFFF;
+      --texto: #333333;
+      --fundo-escuro: #121212;
+      --texto-escuro: #EEE;
+      --verde-escuro: #1B7A74;
+      --roxo-escuro: #4B116F;
+      --amarelo-escuro: #B08900;
+    }
+    body {
+      background-color: var(--fundo);
+      color: var(--texto);
+      font-family: "Segoe UI", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      margin: 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    body.dark-mode {
+      background-color: var(--fundo-escuro);
+      color: var(--texto-escuro);
+    }
+    h2 {
+      margin-bottom: 10px;
+    }
+    #tabuleiroMemoria {
+      display: grid;
+      grid-template-columns: repeat(4, 120px);
+      gap: 15px;
+      justify-content: center;
+      max-width: 520px;
+      margin: 20px auto;
+    }
+    .carta-memoria {
+      width: 120px;
+      height: 120px;
+      background-color: var(--verde);
+      color: white;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .carta-memoria:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 10px var(--amarelo);
+    }
+    button {
+      padding: 8px 16px;
+      background-color: var(--verde);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 15px;
+    }
+    button:hover {
+      background-color: var(--verde-escuro);
+    }
+    #mensagemMemoria {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      min-height: 1.2em;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h2>🧠 Jogo da Memória Bíblico</h2>
+  <p>Encontre os pares iguais de personagens bíblicos!</p>
+  <div id="tabuleiroMemoria"></div>
+  <button id="btnReiniciarMemoria">Reiniciar Jogo</button>
+  <div id="mensagemMemoria"></div>
+
+  <script>
+    const personagensMemoria = [
+      "Noé", "Moisés", "Davi", "Rute",
+      "Elias", "Daniel", "José", "Abraão"
+    ];
+
+    // Duplicar para criar pares e embaralhar
+    let cartasMemoria = [...personagensMemoria, ...personagensMemoria];
+    let primeiraCarta = null;
+    let segundaCarta = null;
+    let travaTabuleiro = false;
+    let paresEncontrados = 0;
+
+    const tabuleiroMemoria = document.getElementById("tabuleiroMemoria");
+    const btnReiniciarMemoria = document.getElementById("btnReiniciarMemoria");
+    const mensagemMemoria = document.getElementById("mensagemMemoria");
+
+    function embaralhar(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function criarTabuleiro() {
+      tabuleiroMemoria.innerHTML = "";
+      paresEncontrados = 0;
+      mensagemMemoria.textContent = "";
+      cartasMemoria = embaralhar(cartasMemoria);
+
+      cartasMemoria.forEach((personagem, index) => {
+        const carta = document.createElement("div");
+        carta.classList.add("carta-memoria");
+        carta.dataset.personagem = personagem;
+        carta.dataset.index = index;
+        carta.textContent = "?";
+
+        carta.addEventListener("click", virarCarta);
+
+        tabuleiroMemoria.appendChild(carta);
+      });
+    }
+
+    function virarCarta(event) {
+      if (travaTabuleiro) return;
+      const carta = event.currentTarget;
+      if (carta === primeiraCarta) return;
+
+      carta.textContent = carta.dataset.personagem;
+      carta.style.backgroundColor = "var(--amarelo)";
+      carta.style.color = "#333";
+      carta.style.transform = "scale(1.05)";
+
+      if (!primeiraCarta) {
+        primeiraCarta = carta;
+        return;
+      }
+
+      segundaCarta = carta;
+      travaTabuleiro = true;
+
+      if (primeiraCarta.dataset.personagem === segundaCarta.dataset.personagem) {
+        paresEncontrados++;
+        primeiraCarta.style.backgroundColor = "var(--verde-escuro)";
+        segundaCarta.style.backgroundColor = "var(--verde-escuro)";
+        primeiraCarta.style.cursor = "default";
+        segundaCarta.style.cursor = "default";
+
+        resetarSelecao();
+
+        if (paresEncontrados === personagensMemoria.length) {
+          mensagemMemoria.textContent = "🎉 Parabéns! Você encontrou todos os pares!";
+        }
+      } else {
+        setTimeout(() => {
+          primeiraCarta.textContent = "?";
+          segundaCarta.textContent = "?";
+          primeiraCarta.style.backgroundColor = "var(--verde)";
+          segundaCarta.style.backgroundColor = "var(--verde)";
+          primeiraCarta.style.color = "white";
+          segundaCarta.style.color = "white";
+          primeiraCarta.style.transform = "scale(1)";
+          segundaCarta.style.transform = "scale(1)";
+          resetarSelecao();
+        }, 1000);
+      }
+    }
+
+    function resetarSelecao() {
+      [primeiraCarta, segundaCarta] = [null, null];
+      travaTabuleiro = false;
+    }
+
+    btnReiniciarMemoria.addEventListener("click", () => {
+      resetarSelecao();
+      criarTabuleiro();
+    });
+
+    criarTabuleiro();
+  </script>
+</body>
+</html>
