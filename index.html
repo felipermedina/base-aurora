@@ -550,6 +550,10 @@
     &copy; 2025 Base Aurora - G148 Teen | Desenvolvido pelo Felipe
   </footer>
 
+<!-- Firebase SDKs (já na sua página, antes deste script) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
   <script>
     // Navegação das seções
     const menu = document.getElementById("menuNavegacao");
@@ -602,73 +606,99 @@ function mostrarVersiculo() {
 mostrarVersiculo();
 
 
-    // Eventos
-    const btnAdicionarEvento = document.getElementById("btnAdicionarEvento");
-    const dataEvento = document.getElementById("dataEvento");
-    const descricaoEvento = document.getElementById("descricaoEvento");
-    const senhaEvento = document.getElementById("senhaEvento");
-    const listaEventos = document.getElementById("listaEventos");
+  // Configuração do Firebase (com seus dados reais)
+  const firebaseConfig = {
+    apiKey: "AIzaSyBcQQsDfdUFoYrB97uQcfhDX1M9aDyFuEc",
+    authDomain: "base-aurora.firebaseapp.com",
+    databaseURL: "https://base-aurora-default-rtdb.firebaseio.com",
+    projectId: "base-aurora",
+    storageBucket: "base-aurora.firebasestorage.app",
+    messagingSenderId: "395083270436",
+    appId: "1:395083270436:web:4f4965c2045366df558bb1",
+    measurementId: "G-PJHTVWVZWQ"
+  };
 
-    let eventos = JSON.parse(localStorage.getItem("eventosBaseAurora")) || {};
+  // Inicializa Firebase
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
 
-    function salvarEventos() {
-      localStorage.setItem("eventosBaseAurora", JSON.stringify(eventos));
+  // Referência para os eventos no Firebase
+  const eventosRef = database.ref("eventosBaseAurora");
+
+  // Elementos do DOM
+  const btnAdicionarEvento = document.getElementById("btnAdicionarEvento");
+  const dataEvento = document.getElementById("dataEvento");
+  const descricaoEvento = document.getElementById("descricaoEvento");
+  const senhaEvento = document.getElementById("senhaEvento");
+  const listaEventos = document.getElementById("listaEventos");
+
+  // Função para atualizar a lista de eventos na tela
+  function atualizarListaEventos(eventos) {
+    listaEventos.innerHTML = "";
+    for (const data in eventos) {
+      const div = document.createElement("div");
+      div.style.marginBottom = "10px";
+
+      const titulo = document.createElement("strong");
+      titulo.textContent = data + ": ";
+      div.appendChild(titulo);
+
+      const span = document.createElement("span");
+      span.textContent = eventos[data];
+      div.appendChild(span);
+
+      const btnRemover = document.createElement("button");
+      btnRemover.textContent = "X";
+      btnRemover.style.marginLeft = "10px";
+      btnRemover.style.backgroundColor = "crimson";
+      btnRemover.style.color = "white";
+      btnRemover.style.border = "none";
+      btnRemover.style.borderRadius = "5px";
+      btnRemover.style.padding = "2px 6px";
+      btnRemover.style.cursor = "pointer";
+      btnRemover.title = "Remover evento";
+
+      btnRemover.addEventListener("click", () => {
+        eventosRef.child(data).remove();
+      });
+
+      div.appendChild(btnRemover);
+      listaEventos.appendChild(div);
+    }
+  }
+
+  // Escuta os eventos em tempo real e atualiza a lista
+  eventosRef.on("value", (snapshot) => {
+    const dados = snapshot.val() || {};
+    atualizarListaEventos(dados);
+  });
+
+  // Adicionar novo evento no Firebase
+  btnAdicionarEvento.addEventListener("click", () => {
+    const dataVal = dataEvento.value;
+    const descricaoVal = descricaoEvento.value.trim();
+    const senhaVal = senhaEvento.value.trim();
+
+    if (!dataVal || !descricaoVal) {
+      alert("Por favor, preencha data e descrição do evento.");
+      return;
     }
 
-    function atualizarListaEventos() {
-      listaEventos.innerHTML = "";
-      for (const data in eventos) {
-        const div = document.createElement("div");
-        div.style.marginBottom = "10px";
-        const titulo = document.createElement("strong");
-        titulo.textContent = data + ": ";
-        div.appendChild(titulo);
-
-        const span = document.createElement("span");
-        span.textContent = eventos[data];
-        div.appendChild(span);
-
-        const btnRemover = document.createElement("button");
-        btnRemover.textContent = "X";
-        btnRemover.style.marginLeft = "10px";
-        btnRemover.style.backgroundColor = "crimson";
-        btnRemover.style.color = "white";
-        btnRemover.style.border = "none";
-        btnRemover.style.borderRadius = "5px";
-        btnRemover.style.padding = "2px 6px";
-        btnRemover.style.cursor = "pointer";
-        btnRemover.title = "Remover evento";
-        btnRemover.addEventListener("click", () => {
-          delete eventos[data];
-          salvarEventos();
-          atualizarListaEventos();
-        });
-
-        div.appendChild(btnRemover);
-        listaEventos.appendChild(div);
-      }
+    if (senhaVal !== "1234") {
+      alert("Senha incorreta!");
+      return;
     }
-    atualizarListaEventos();
 
-    btnAdicionarEvento.addEventListener("click", () => {
-      const dataVal = dataEvento.value;
-      const descricaoVal = descricaoEvento.value.trim();
-      const senhaVal = senhaEvento.value.trim();
-      if (!dataVal || !descricaoVal) {
-        alert("Por favor, preencha data e descrição do evento.");
-        return;
-      }
-      if (senhaVal !== "1234") {
-        alert("Senha incorreta!");
-        return;
-      }
-      eventos[dataVal] = descricaoVal;
-      salvarEventos();
-      atualizarListaEventos();
-      dataEvento.value = "";
-      descricaoEvento.value = "";
-      senhaEvento.value = "";
-    });
+    eventosRef.child(dataVal).set(descricaoVal)
+      .then(() => {
+        dataEvento.value = "";
+        descricaoEvento.value = "";
+        senhaEvento.value = "";
+      })
+      .catch((error) => {
+        alert("Erro ao salvar evento: " + error.message);
+      });
+  });
 
     // Pedidos de oração
     const formPedidoOracao = document.getElementById("pedidoOracaoForm");
@@ -834,6 +864,6 @@ mostrarVersiculo();
       const urlPlaylist = "https://youtube.com/playlist?list=PLEYTcF5xVCHRYRbqlJ4tKnpNbXZbhInhJ&si=1dfU3NO4fdwNypBF";
       window.open(urlPlaylist, "_blank");
     }
-  </script>
+</script>
 </body>
 </html>
